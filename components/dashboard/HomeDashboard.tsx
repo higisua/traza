@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -15,12 +16,19 @@ import {
 } from "lucide-react";
 import { PrimaryButton } from "@/components/forms/Button";
 import { useToast } from "@/components/feedback/Toast";
+import {
+  formatBodyFatPct,
+  formatEntryRelativeMeta,
+  formatWeightKg,
+  useWeightEntries,
+} from "@/features/weight";
 import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 /**
  * Home — Instrumento Premium (desirability)
  * System: docs/10_HOME_SYSTEM.md v2
+ * Frozen layout: only Weight card content/navigation may change for Phase 1.1.
  */
 
 function openModuleSoon(
@@ -96,6 +104,9 @@ function ModuleTile({
 
 export function HomeDashboard() {
   const { showToast } = useToast();
+  const router = useRouter();
+  const { summary } = useWeightEntries();
+  const latestWeight = summary.latest;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -158,19 +169,51 @@ export function HomeDashboard() {
             tone="hero"
             label="Peso"
             icon={Scale}
-            onClick={() => openModuleSoon(showToast, "peso")}
+            onClick={() => router.push("/weight")}
           >
-            <div className="flex items-baseline gap-1.5">
-              <span className="text-[36px] font-bold leading-none tracking-[-0.03em] text-text-primary tabular-nums">
-                95,45
-              </span>
-              <span className="text-[15px] font-semibold text-text-muted">kg</span>
-            </div>
-            <p className="mt-1 text-[14px] font-medium leading-snug text-text-secondary tabular-nums">
-              23,2 % grasa
-              <span className="mx-1.5 text-border-strong">·</span>
-              <span className="text-text-muted">Hoy · 07:08</span>
-            </p>
+            {latestWeight ? (
+              <motion.div
+                key={latestWeight.id}
+                initial={{ opacity: 0.72, y: 2 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: motionDuration.normal,
+                  ease: motionEase.standard,
+                }}
+              >
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[36px] font-bold leading-none tracking-[-0.03em] text-text-primary tabular-nums">
+                    {formatWeightKg(latestWeight.weightKg)}
+                  </span>
+                  <span className="text-[15px] font-semibold text-text-muted">
+                    kg
+                  </span>
+                </div>
+                <p className="mt-1 text-[14px] font-medium leading-snug text-text-secondary tabular-nums">
+                  {latestWeight.bodyFatPct !== null
+                    ? `${formatBodyFatPct(latestWeight.bodyFatPct)} % grasa`
+                    : "Sin % de grasa"}
+                  <span className="mx-1.5 text-border-strong">·</span>
+                  <span className="text-text-muted">
+                    {formatEntryRelativeMeta(latestWeight)}
+                  </span>
+                </p>
+              </motion.div>
+            ) : (
+              <>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-[36px] font-bold leading-none tracking-[-0.03em] text-text-muted">
+                    —
+                  </span>
+                  <span className="text-[15px] font-semibold text-text-muted">
+                    kg
+                  </span>
+                </div>
+                <p className="mt-1 text-[14px] font-medium leading-snug text-text-muted">
+                  Sin registro
+                </p>
+              </>
+            )}
           </ModuleTile>
 
           <div className="grid grid-cols-2 gap-2.5">
