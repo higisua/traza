@@ -1,0 +1,385 @@
+[
+  {
+    "slug": "day-a",
+    "name": "Day A",
+    "description": "Full Body A",
+    "estimatedDurationMinutes": 55,
+    "exercises": [
+      {
+        "exerciseSlug": "hack-squat",
+        "order": 1,
+        "sets": 3,
+        "repRange": {
+          "min": 6,
+          "max": 10
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 150
+      },
+      {
+        "exerciseSlug": "machine-chest-press",
+        "order": 2,
+        "sets": 3,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "chest-supported-row",
+        "order": 3,
+        "sets": 3,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 90,
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "seated-leg-curl",
+        "order": 4,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "machine-lateral-raise",
+        "order": 5,
+        "sets": 2,
+        "repRange": {
+          "min": 12,
+          "max": 20
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 75,
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "rope-triceps-pushdown",
+        "order": 6,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-3"
+      },
+      {
+        "exerciseSlug": "leg-press-calf-raise",
+        "order": 7,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-3"
+      },
+      {
+        "exerciseSlug": "elliptical",
+        "order": 8,
+        "durationMinutes": 10
+      }
+    ]
+  },
+  {
+    "slug": "day-b",
+    "name": "Day B",
+    "description": "Full Body B",
+    "estimatedDurationMinutes": 55,
+    "exercises": [
+      {
+        "exerciseSlug": "smith-romanian-deadlift",
+        "order": 1,
+        "sets": 3,
+        "repRange": {
+          "min": 6,
+          "max": 10
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 150
+      },
+      {
+        "exerciseSlug": "machine-incline-chest-press",
+        "order": 2,
+        "sets": 3,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "neutral-grip-lat-pulldown",
+        "order": 3,
+        "sets": 3,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 90,
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "leg-press",
+        "order": 4,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 120
+      },
+      {
+        "exerciseSlug": "machine-shoulder-press",
+        "order": 5,
+        "sets": 2,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60,
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "cable-biceps-curl",
+        "order": 6,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 75,
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "cable-crunch",
+        "order": 7,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "rir": {
+          "min": 1,
+          "max": 2
+        },
+        "restSeconds": 60
+      },
+      {
+        "exerciseSlug": "elliptical",
+        "order": 8,
+        "durationMinutes": 8
+      }
+    ]
+  },
+  {
+    "slug": "day-c",
+    "name": "Day C",
+    "description": "Optional Full Body",
+    "estimatedDurationMinutes": 45,
+    "optional": true,
+    "exercises": [
+      {
+        "exerciseSlug": "leg-extension",
+        "order": 1,
+        "sets": 2,
+        "repRange": {
+          "min": 12,
+          "max": 15
+        },
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "machine-hip-thrust",
+        "order": 2,
+        "sets": 2,
+        "repRange": {
+          "min": 8,
+          "max": 12
+        },
+        "pair": "pair-1"
+      },
+      {
+        "exerciseSlug": "pec-deck",
+        "order": 3,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "high-row-machine",
+        "order": 4,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "pair": "pair-2"
+      },
+      {
+        "exerciseSlug": "lateral-raise",
+        "order": 5,
+        "sets": 2,
+        "repRange": {
+          "min": 15,
+          "max": 20
+        },
+        "pair": "pair-3"
+      },
+      {
+        "exerciseSlug": "reverse-pec-deck",
+        "order": 6,
+        "sets": 2,
+        "repRange": {
+          "min": 12,
+          "max": 20
+        },
+        "pair": "pair-3"
+      },
+      {
+        "exerciseSlug": "preacher-curl",
+        "order": 7,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "pair": "pair-4"
+      },
+      {
+        "exerciseSlug": "overhead-triceps-extension",
+        "order": 8,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "pair": "pair-4"
+      },
+      {
+        "exerciseSlug": "standing-calf-raise",
+        "order": 9,
+        "sets": 2,
+        "repRange": {
+          "min": 12,
+          "max": 20
+        },
+        "pair": "pair-5"
+      },
+      {
+        "exerciseSlug": "pallof-press",
+        "order": 10,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        },
+        "pair": "pair-5"
+      }
+    ]
+  },
+  {
+    "slug": "home",
+    "name": "Home",
+    "description": "10-15 min home session",
+    "estimatedDurationMinutes": 15,
+    "optional": true,
+    "exercises": [
+      {
+        "exerciseSlug": "push-up",
+        "order": 1,
+        "sets": 2,
+        "repRange": {
+          "min": 8,
+          "max": 20
+        }
+      },
+      {
+        "exerciseSlug": "reverse-lunge",
+        "order": 2,
+        "sets": 2,
+        "repRange": {
+          "min": 10,
+          "max": 15
+        }
+      },
+      {
+        "exerciseSlug": "single-leg-calf-raise",
+        "order": 3,
+        "sets": 2,
+        "repRange": {
+          "min": 15,
+          "max": 25
+        }
+      },
+      {
+        "exerciseSlug": "side-plank",
+        "order": 4,
+        "sets": 2,
+        "durationSeconds": 30
+      }
+    ]
+  }
+]

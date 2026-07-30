@@ -1,0 +1,139 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--traza-background);
+  --color-surface: var(--traza-surface);
+  --color-surface-secondary: var(--traza-surface-secondary);
+  --color-surface-hover: var(--traza-surface-hover);
+  --color-surface-warm: var(--traza-surface-warm);
+
+  --color-primary: var(--traza-primary);
+  --color-primary-hover: var(--traza-primary-hover);
+  --color-primary-pressed: var(--traza-primary-pressed);
+  --color-primary-soft: var(--traza-primary-soft);
+
+  --color-border-light: var(--traza-border-light);
+  --color-border: var(--traza-border);
+  --color-border-strong: var(--traza-border-strong);
+
+  --color-text-primary: var(--traza-text-primary);
+  --color-text-secondary: var(--traza-text-secondary);
+  --color-text-muted: var(--traza-text-muted);
+  --color-text-disabled: var(--traza-text-disabled);
+  --color-text-inverse: var(--traza-text-inverse);
+
+  --color-success: var(--traza-success);
+  --color-warning: var(--traza-warning);
+  --color-danger: var(--traza-danger);
+  --color-info: var(--traza-info);
+
+  --shadow-xs: var(--traza-shadow-xs);
+  --shadow-s: var(--traza-shadow-s);
+  --shadow-m: var(--traza-shadow-m);
+  --shadow-l: var(--traza-shadow-l);
+  --shadow-hero: var(--traza-shadow-hero);
+  --shadow-train: var(--traza-shadow-train);
+
+  --radius-xs: var(--traza-radius-xs);
+  --radius-s: var(--traza-radius-s);
+  --radius-m: var(--traza-radius-m);
+  --radius-l: var(--traza-radius-l);
+  --radius-xl: var(--traza-radius-xl);
+  --radius-2xl: var(--traza-radius-2xl);
+  --radius-input: var(--traza-radius-input);
+
+  --spacing-1: var(--traza-space-1);
+  --spacing-2: var(--traza-space-2);
+  --spacing-3: var(--traza-space-3);
+  --spacing-4: var(--traza-space-4);
+  --spacing-5: var(--traza-space-5);
+  --spacing-6: var(--traza-space-6);
+  --spacing-7: var(--traza-space-7);
+  --spacing-8: var(--traza-space-8);
+  --spacing-9: var(--traza-space-9);
+  --spacing-10: var(--traza-space-10);
+  --spacing-11: var(--traza-space-11);
+
+  --text-display-xl: var(--traza-font-display-xl);
+  --text-display: var(--traza-font-display);
+  --text-hero-number: var(--traza-font-hero-number);
+  --text-section: var(--traza-font-section);
+  --text-card-title: var(--traza-font-card-title);
+  --text-body: var(--traza-font-body);
+  --text-caption: var(--traza-font-caption);
+  --text-label: var(--traza-font-label);
+
+  --leading-display: var(--traza-leading-display);
+  --leading-title: var(--traza-leading-title);
+  --leading-body: var(--traza-leading-body);
+  --leading-caption: var(--traza-leading-caption);
+
+  --tracking-display: var(--traza-tracking-display);
+  --tracking-title: var(--traza-tracking-title);
+  --tracking-label: var(--traza-tracking-label);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--traza-background);
+  color: var(--traza-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--traza-font-body);
+  line-height: var(--traza-leading-body);
+  letter-spacing: var(--traza-tracking-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: var(--traza-primary-soft);
+  color: var(--traza-text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--traza-primary);
+  outline-offset: 2px;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+@media (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--traza-border-strong);
+    border-radius: var(--traza-radius-xs);
+  }
+}

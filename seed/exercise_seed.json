@@ -1,0 +1,768 @@
+[
+  {
+    "slug": "hack-squat",
+    "name": "Hack squat",
+    "image": "/exercises/hack-squat.png",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": [
+      "Glutes"
+    ],
+    "movementPattern": "Squat",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Per Side",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 6,
+      "max": 10
+    },
+    "defaultRestSeconds": 150,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Keep lower back against pad.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "machine-chest-press",
+    "name": "Machine chest press",
+    "image": "/exercises/machine-chest-press.png",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Front Delts",
+      "Triceps"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Control eccentric.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "chest-supported-row",
+    "name": "Chest supported row",
+    "image": "/exercises/chest-supported-row.png",
+    "primaryMuscle": "Back",
+    "secondaryMuscles": [
+      "Biceps",
+      "Rear Delts"
+    ],
+    "movementPattern": "Pull",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Chest on pad.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "seated-leg-curl",
+    "name": "Seated leg curl",
+    "image": "/exercises/seated-leg-curl.png",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Calves"
+    ],
+    "movementPattern": "Hinge",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 75,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Do not lift hips.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "machine-lateral-raise",
+    "name": "Machine lateral raise",
+    "image": "/exercises/machine-lateral-raise.png",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Upper Traps"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 12,
+      "max": 20
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Lead with elbows.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "rope-triceps-pushdown",
+    "name": "Rope triceps pushdown",
+    "image": "/exercises/rope-triceps-pushdown.png",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Open rope.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "leg-press-calf-raise",
+    "name": "Leg press calf raise",
+    "image": "/exercises/leg-press-calf-raise.png",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Per Side",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Full stretch.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "elliptical",
+    "name": "Elliptical",
+    "image": "/exercises/elliptical.png",
+    "primaryMuscle": "Cardio",
+    "secondaryMuscles": [],
+    "movementPattern": "Cardio",
+    "equipment": "Cardio",
+    "trackingType": "Cardio",
+    "loadType": "N/A",
+    "defaultSets": 1,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 10
+    },
+    "defaultRestSeconds": 0,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Moderate pace.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "smith-romanian-deadlift",
+    "name": "Smith Romanian deadlift",
+    "image": "/exercises/smith-romanian-deadlift.png",
+    "primaryMuscle": "Hamstrings",
+    "secondaryMuscles": [
+      "Glutes"
+    ],
+    "movementPattern": "Hinge",
+    "equipment": "Smith",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 6,
+      "max": 10
+    },
+    "defaultRestSeconds": 150,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Hips back.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "machine-incline-chest-press",
+    "name": "Machine incline chest press",
+    "image": "/exercises/machine-incline-chest-press.png",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Front Delts",
+      "Triceps"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Press upward.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "neutral-grip-lat-pulldown",
+    "name": "Neutral grip lat pulldown",
+    "image": "/exercises/neutral-grip-lat-pulldown.png",
+    "primaryMuscle": "Back",
+    "secondaryMuscles": [
+      "Biceps"
+    ],
+    "movementPattern": "Pull",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 3,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Drive elbows down.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "leg-press",
+    "name": "Leg press",
+    "image": "/exercises/leg-press.png",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": [
+      "Glutes"
+    ],
+    "movementPattern": "Squat",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Per Side",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 120,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Don't lock knees.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "machine-shoulder-press",
+    "name": "Machine shoulder press",
+    "image": "/exercises/machine-shoulder-press.png",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Triceps"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Wrists stacked.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "cable-biceps-curl",
+    "name": "Cable biceps curl",
+    "image": "/exercises/cable-biceps-curl.png",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [],
+    "movementPattern": "Pull",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Elbows fixed.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "cable-crunch",
+    "name": "Cable crunch",
+    "image": "/exercises/cable-crunch.png",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [],
+    "movementPattern": "Core",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Flex spine.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "leg-extension",
+    "name": "Leg extension",
+    "image": "/exercises/leg-extension.png",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": [],
+    "movementPattern": "Squat",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 12,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Pause.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "machine-hip-thrust",
+    "name": "Machine hip thrust",
+    "image": "/exercises/machine-hip-thrust.png",
+    "primaryMuscle": "Glutes",
+    "secondaryMuscles": [
+      "Hamstrings"
+    ],
+    "movementPattern": "Hinge",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 12
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Hip extension.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "pec-deck",
+    "name": "Pec deck",
+    "image": "/exercises/pec-deck.png",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Front Delts"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 75,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Soft elbows.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "high-row-machine",
+    "name": "High row machine",
+    "image": "/exercises/high-row-machine.png",
+    "primaryMuscle": "Back",
+    "secondaryMuscles": [
+      "Rear Delts",
+      "Biceps"
+    ],
+    "movementPattern": "Pull",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 75,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Pull high.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "lateral-raise",
+    "name": "Lateral raise",
+    "image": "/exercises/lateral-raise.png",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Dumbbell",
+    "trackingType": "Weight",
+    "loadType": "Per Dumbbell",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 15,
+      "max": 20
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Shoulder height.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "reverse-pec-deck",
+    "name": "Reverse pec deck",
+    "image": "/exercises/reverse-pec-deck.png",
+    "primaryMuscle": "Shoulders",
+    "secondaryMuscles": [
+      "Upper Back"
+    ],
+    "movementPattern": "Pull",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 12,
+      "max": 20
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Lead elbows.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "preacher-curl",
+    "name": "Preacher curl",
+    "image": "/exercises/preacher-curl.png",
+    "primaryMuscle": "Biceps",
+    "secondaryMuscles": [],
+    "movementPattern": "Pull",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Full extension.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "overhead-triceps-extension",
+    "name": "Overhead triceps extension",
+    "image": "/exercises/overhead-triceps-extension.png",
+    "primaryMuscle": "Triceps",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Elbows fixed.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "standing-calf-raise",
+    "name": "Standing calf raise",
+    "image": "/exercises/standing-calf-raise.png",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Machine",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 12,
+      "max": 20
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Pause.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "pallof-press",
+    "name": "Pallof press",
+    "image": "/exercises/pallof-press.png",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Obliques"
+    ],
+    "movementPattern": "Core",
+    "equipment": "Cable",
+    "trackingType": "Weight",
+    "loadType": "Total Weight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Resist rotation.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "push-up",
+    "name": "Push-up",
+    "image": "/exercises/push-up.png",
+    "primaryMuscle": "Chest",
+    "secondaryMuscles": [
+      "Triceps"
+    ],
+    "movementPattern": "Push",
+    "equipment": "Bodyweight",
+    "trackingType": "Repetitions",
+    "loadType": "Bodyweight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 8,
+      "max": 20
+    },
+    "defaultRestSeconds": 60,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": true,
+    "techniqueTip": "Rigid body.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "reverse-lunge",
+    "name": "Reverse lunge",
+    "image": "/exercises/reverse-lunge.png",
+    "primaryMuscle": "Quadriceps",
+    "secondaryMuscles": [
+      "Glutes",
+      "Hamstrings"
+    ],
+    "movementPattern": "Squat",
+    "equipment": "Dumbbell",
+    "trackingType": "Weight",
+    "loadType": "Per Dumbbell",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 10,
+      "max": 15
+    },
+    "defaultRestSeconds": 90,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": false,
+    "techniqueTip": "Step back.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "single-leg-calf-raise",
+    "name": "Single leg calf raise",
+    "image": "/exercises/single-leg-calf-raise.png",
+    "primaryMuscle": "Calves",
+    "secondaryMuscles": [],
+    "movementPattern": "Push",
+    "equipment": "Bodyweight",
+    "trackingType": "Repetitions",
+    "loadType": "Bodyweight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 15,
+      "max": 25
+    },
+    "defaultRestSeconds": 45,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": false,
+    "techniqueTip": "Full ROM.",
+    "setupNote": "",
+    "isSeed": true
+  },
+  {
+    "slug": "side-plank",
+    "name": "Side plank",
+    "image": "/exercises/side-plank.png",
+    "primaryMuscle": "Core",
+    "secondaryMuscles": [
+      "Obliques"
+    ],
+    "movementPattern": "Core",
+    "equipment": "Bodyweight",
+    "trackingType": "Time",
+    "loadType": "Bodyweight",
+    "defaultSets": 2,
+    "defaultRepRange": {
+      "min": 30,
+      "max": 45
+    },
+    "defaultRestSeconds": 45,
+    "defaultRir": {
+      "min": 1,
+      "max": 2
+    },
+    "isBilateral": false,
+    "techniqueTip": "Straight body.",
+    "setupNote": "",
+    "isSeed": true
+  }
+]

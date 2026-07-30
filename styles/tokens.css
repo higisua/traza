@@ -1,0 +1,116 @@
+/* Design iteration 2 — density, mobile viewport efficiency, quieter motion */
+
+:root {
+  /* Brand */
+  --traza-primary: #c7f43d;
+  --traza-primary-hover: #b7e634;
+  --traza-primary-pressed: #a8d62b;
+  --traza-primary-soft: #eef9c8;
+
+  /* Backgrounds */
+  --traza-background: #f3f4ef;
+  --traza-surface: #ffffff;
+  --traza-surface-secondary: #e8ebe3;
+  --traza-surface-hover: #f0f2ec;
+  --traza-surface-elevated: #ffffff;
+  --traza-surface-warm: #fff8ed;
+
+  /* Borders */
+  --traza-border-light: #e7eae4;
+  --traza-border: #dde1da;
+  --traza-border-strong: #c8cec5;
+
+  /* Text */
+  --traza-text-primary: #141714;
+  --traza-text-secondary: #6b736b;
+  --traza-text-muted: #9aa19a;
+  --traza-text-disabled: #b8bdb7;
+  --traza-text-inverse: #ffffff;
+
+  /* Semantic */
+  --traza-success: #46b96b;
+  --traza-warning: #f6b436;
+  --traza-danger: #e45c4c;
+  --traza-info: #4a84ff;
+
+  /* Spacing */
+  --traza-space-1: 4px;
+  --traza-space-2: 8px;
+  --traza-space-3: 12px;
+  --traza-space-4: 16px;
+  --traza-space-5: 24px;
+  --traza-space-6: 32px;
+  --traza-space-7: 40px;
+  --traza-space-8: 48px;
+  --traza-space-9: 64px;
+  --traza-space-10: 96px;
+  --traza-space-11: 128px;
+
+  /* Radius */
+  --traza-radius-xs: 8px;
+  --traza-radius-s: 12px;
+  --traza-radius-m: 18px;
+  --traza-radius-l: 24px;
+  --traza-radius-xl: 32px;
+  --traza-radius-2xl: 40px;
+  --traza-radius-input: 16px;
+
+  /* Shadows */
+  --traza-shadow-xs: 0 1px 2px rgba(20, 23, 20, 0.03);
+  --traza-shadow-s: 0 3px 12px rgba(20, 23, 20, 0.045);
+  --traza-shadow-m: 0 8px 22px rgba(20, 23, 20, 0.055);
+  --traza-shadow-l: 0 14px 36px rgba(20, 23, 20, 0.07);
+  --traza-shadow-hero: 0 12px 32px rgba(20, 23, 20, 0.07);
+  --traza-shadow-train: 0 8px 22px rgba(168, 214, 43, 0.32);
+
+  /* Typography — mobile-efficient scale */
+  --traza-font-display-xl: 48px;
+  --traza-font-display: 36px;
+  --traza-font-hero-number: 40px;
+  --traza-font-section: 24px;
+  --traza-font-card-title: 18px;
+  --traza-font-body: 15px;
+  --traza-font-caption: 12px;
+  --traza-font-label: 10px;
+
+  --traza-leading-display: 0.96;
+  --traza-leading-title: 1.15;
+  --traza-leading-body: 1.45;
+  --traza-leading-caption: 1.35;
+
+  --traza-tracking-display: -0.03em;
+  --traza-tracking-title: -0.018em;
+  --traza-tracking-body: 0;
+  --traza-tracking-label: 0.07em;
+
+  /* Component — denser mobile targets */
+  --traza-button-height: 56px;
+  --traza-input-height: 52px;
+  --traza-page-header-height: 56px;
+  --traza-history-row-height: 56px;
+  --traza-bottom-nav-height: 76px;
+  --traza-hero-min-height: 0px;
+  --traza-touch-min: 48px;
+
+  /* Layout */
+  --traza-content-max: 720px;
+  --traza-desktop-max: 1280px;
+  --traza-forms-max: 560px;
+
+  /* Motion — quieter */
+  --traza-duration-fast: 160ms;
+  --traza-duration-normal: 240ms;
+  --traza-duration-slow: 360ms;
+  --traza-duration-page: 300ms;
+
+  /* Opacity */
+  --traza-opacity-disabled: 0.4;
+  --traza-opacity-muted: 0.55;
+
+  /* Z-index */
+  --traza-z-navigation: 100;
+  --traza-z-sheet: 200;
+  --traza-z-dialog: 300;
+  --traza-z-toast: 400;
+  --traza-z-loading: 500;
+}
