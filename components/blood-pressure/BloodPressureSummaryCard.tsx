@@ -69,7 +69,7 @@ export function BloodPressureSummaryCard({
           key={`${latest.systolic}-${latest.diastolic}`}
           initial={{ opacity: 0.55, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-[40px] font-bold leading-none tracking-[-0.035em] text-text-primary tabular-nums"
+          className="text-[42px] font-bold leading-none tracking-[-0.035em] text-text-primary tabular-nums"
         >
           {formatBloodPressureReading(latest.systolic, latest.diastolic)}
         </motion.span>

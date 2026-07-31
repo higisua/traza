@@ -27,6 +27,11 @@ import {
   formatPulse,
   useBloodPressureEntries,
 } from "@/features/blood-pressure";
+import {
+  formatSleepDurationShort,
+  formatSleepScore,
+  useSleepEntries,
+} from "@/features/sleep";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
 import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
@@ -34,7 +39,7 @@ import { cn } from "@/lib/utils/cn";
 /**
  * Home — Instrumento Premium (desirability)
  * System: docs/10_HOME_SYSTEM.md v2
- * Frozen layout: only Weight + Blood Pressure cards may change for Phase 1.
+ * Frozen layout: only tracking cards already shipped may update for Phase 1.
  */
 
 function openModuleSoon(
@@ -113,8 +118,10 @@ export function HomeDashboard() {
   const router = useRouter();
   const { summary } = useWeightEntries();
   const { summary: bpSummary } = useBloodPressureEntries();
+  const { summary: sleepSummary } = useSleepEntries();
   const latestWeight = summary.latest;
   const latestBp = bpSummary.latest;
+  const latestSleep = sleepSummary.latest;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -271,16 +278,43 @@ export function HomeDashboard() {
               tone="elevated"
               label="Sueño"
               icon={Moon}
-              onClick={() => openModuleSoon(showToast, "sueño")}
+              onClick={() => router.push("/sleep")}
             >
-              <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-primary tabular-nums">
-                7 h 21
-              </p>
-              <p className="mt-1 text-[13px] font-medium text-text-secondary tabular-nums">
-                78 puntos
-                <span className="mx-1.5 text-border-strong">·</span>
-                <span className="text-text-muted">Hoy</span>
-              </p>
+              {latestSleep ? (
+                <motion.div
+                  key={latestSleep.id}
+                  initial={{ opacity: 0.72, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: motionDuration.normal,
+                    ease: motionEase.standard,
+                  }}
+                >
+                  <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-primary tabular-nums">
+                    {formatSleepDurationShort(latestSleep.durationMinutes)}
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-secondary tabular-nums">
+                    {latestSleep.score !== null ? (
+                      <>
+                        {formatSleepScore(latestSleep.score)}
+                        <span className="mx-1.5 text-border-strong">·</span>
+                      </>
+                    ) : null}
+                    <span className="text-text-muted">
+                      {formatEntryStamp(latestSleep)}
+                    </span>
+                  </p>
+                </motion.div>
+              ) : (
+                <>
+                  <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-muted">
+                    —
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    Sin registro
+                  </p>
+                </>
+              )}
             </ModuleTile>
           </div>
 

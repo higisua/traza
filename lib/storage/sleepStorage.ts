@@ -1,37 +1,23 @@
-import { createId, readJson, storageKey, writeJson } from "./localStorage";
+import { SleepRepository } from "@/features/sleep/SleepRepository";
+import { SleepService } from "@/features/sleep/SleepService";
+import type { SleepEntry } from "@/features/sleep/SleepTypes";
 
-export type SleepEntry = {
-  id: string;
-  entryDate: string;
-  bedTime: string | null;
-  wakeTime: string | null;
-  durationMinutes: number;
-  score: number | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-const KEY = storageKey("sleep_entries");
-
-function readAll(): SleepEntry[] {
-  return readJson<SleepEntry[]>(KEY, []);
-}
-
-function writeAll(entries: SleepEntry[]): void {
-  writeJson(KEY, entries);
-}
+/**
+ * Legacy storage façade — prefer SleepService / SleepRepository.
+ */
+export type { SleepEntry };
 
 export const sleepStorage = {
   getAll(): SleepEntry[] {
-    return readAll().sort((a, b) => b.entryDate.localeCompare(a.entryDate));
+    return SleepRepository.getAll();
   },
 
   getByDate(entryDate: string): SleepEntry | null {
-    return readAll().find((entry) => entry.entryDate === entryDate) ?? null;
+    return SleepRepository.getByDate(entryDate).at(-1) ?? null;
   },
 
   getLatest(): SleepEntry | null {
-    return this.getAll()[0] ?? null;
+    return SleepRepository.getLatest();
   },
 
   upsert(input: {
@@ -41,41 +27,21 @@ export const sleepStorage = {
     durationMinutes: number;
     score?: number | null;
   }): SleepEntry {
-    const now = new Date().toISOString();
-    const existing = this.getByDate(input.entryDate);
-
-    if (existing) {
-      const updated: SleepEntry = {
-        ...existing,
-        bedTime: input.bedTime ?? existing.bedTime,
-        wakeTime: input.wakeTime ?? existing.wakeTime,
-        durationMinutes: input.durationMinutes,
-        score: input.score ?? existing.score,
-        updatedAt: now,
-      };
-      writeAll(readAll().map((entry) => (entry.id === existing.id ? updated : entry)));
-      return updated;
-    }
-
-    const created: SleepEntry = {
-      id: createId(),
+    return SleepService.create({
       entryDate: input.entryDate,
-      bedTime: input.bedTime ?? null,
-      wakeTime: input.wakeTime ?? null,
+      entryTime: "08:00",
       durationMinutes: input.durationMinutes,
       score: input.score ?? null,
-      createdAt: now,
-      updatedAt: now,
-    };
-    writeAll([...readAll(), created]);
-    return created;
+      bedTime: input.bedTime ?? null,
+      wakeTime: input.wakeTime ?? null,
+    });
   },
 
   remove(id: string): void {
-    writeAll(readAll().filter((entry) => entry.id !== id));
+    SleepRepository.remove(id);
   },
 
   clear(): void {
-    writeAll([]);
+    SleepRepository.clear();
   },
 };
