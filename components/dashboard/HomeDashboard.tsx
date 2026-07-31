@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,7 +15,6 @@ import {
   Settings,
 } from "lucide-react";
 import { PrimaryButton } from "@/components/forms/Button";
-import { useToast } from "@/components/feedback/Toast";
 import {
   formatBodyFatPct,
   formatEntryRelativeMeta,
@@ -115,18 +114,25 @@ function ModuleTile({
 }
 
 export function HomeDashboard() {
-  const { showToast } = useToast();
   const router = useRouter();
+  const [hydrated, setHydrated] = useState(false);
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
+
   const { summary } = useWeightEntries();
   const { summary: bpSummary } = useBloodPressureEntries();
   const { summary: sleepSummary } = useSleepEntries();
   const { summary: stepsSummary } = useStepsEntries();
   const { summary: measurementsSummary } = useMeasurementEntries();
-  const latestWeight = summary.latest;
-  const latestBp = bpSummary.latest;
-  const latestSleep = sleepSummary.latest;
-  const todaySteps = stepsSummary.today;
-  const latestMeasurements = measurementsSummary.latest;
+
+  // Services re-read localStorage inside getSummary(); gate until mount so
+  // SSR and the first client paint both show empty placeholders.
+  const latestWeight = hydrated ? summary.latest : null;
+  const latestBp = hydrated ? bpSummary.latest : null;
+  const latestSleep = hydrated ? sleepSummary.latest : null;
+  const todaySteps = hydrated ? stepsSummary.today : null;
+  const latestMeasurements = hydrated ? measurementsSummary.latest : null;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -330,7 +336,7 @@ export function HomeDashboard() {
               icon={Footprints}
               onClick={() => router.push("/steps")}
             >
-              {stepsSummary.count > 0 ? (
+              {hydrated && stepsSummary.count > 0 && todaySteps ? (
                 <motion.div
                   key={`${todaySteps.entryDate}-${todaySteps.totalSteps}`}
                   initial={{ opacity: 0.72, y: 2 }}
@@ -445,9 +451,7 @@ export function HomeDashboard() {
           </div>
 
           <div className="relative px-4 pb-4 pt-2">
-            <PrimaryButton
-              onClick={() => showToast("El entrenamiento llega en la Fase 2")}
-            >
+            <PrimaryButton onClick={() => router.push("/train")}>
               Comenzar entrenamiento
             </PrimaryButton>
           </div>

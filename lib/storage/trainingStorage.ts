@@ -8,6 +8,8 @@ export type WorkoutSet = {
   load: number | null;
   repetitions: number | null;
   durationSeconds: number | null;
+  /** RIR for this set when tracked; optional for older sessions. */
+  rir?: number | null;
   createdAt: string;
 };
 
