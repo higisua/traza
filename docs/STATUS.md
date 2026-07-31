@@ -1,31 +1,34 @@
 # PROJECT STATUS
 
-Version: 0.1.0  
-Last Updated: 2026-07-30
+Version: 0.2.0  
+Last Updated: 2026-07-31
 
 ---
 
 # Current Status
 
 Phase:  
-🟢 Foundation (Phase 0) — Home product redesign complete
+🟢 Phase 0 — Foundation (Done)  
+🟢 Phase 1 — Tracking (Done)
 
 Status:  
-🟡 Waiting for visual approval before Phase 1
+🟢 Phase 1 officially closed — building differential capabilities next (not redesigning the TRAZA foundation)
 
 ---
 
 # Current Sprint
 
-Sprint 0 – Foundation + Home as tracking hub
+Sprint 2 – Training engine
 
 Goal:
 
-Home reflects product philosophy: status of all tracking modules first; training as a peer block.
+Build differential capabilities on the frozen Phase 1 foundation. Visual language and UX patterns stay put unless a change solves a functional problem or improves consistency across the product.
 
 ---
 
 # Completed
+
+## Phase 0 — Foundation
 
 ✅ Product documentation  
 ✅ Design System docs  
@@ -43,17 +46,30 @@ Home reflects product philosophy: status of all tracking modules first; training
 ✅ Home art direction pass (Decision 014 — composition, asymmetry, purposeful lime)  
 ✅ Home «Instrumento» system v2 — desirability / premium materials (Decision 016)  
 
+## Phase 1 — Tracking
+
+✅ Home  
+✅ Weight  
+✅ Blood Pressure  
+✅ Sleep  
+✅ Steps  
+✅ Body Measurements  
+✅ Tracking Module Kit completed  
+
+**Product decision:** Phase 1 is officially closed. From now on, work focuses on differential capabilities — not redesigning the TRAZA foundation.
+
+**Visual freeze:** The visual language and UX patterns are considered frozen. Further visual changes should only be made if they solve a functional problem or improve consistency across the product.
+
 ---
 
 # In Progress
 
-⬜ Visual review of Home hub by product owner
+⬜ Phase 2 – Training engine
 
 ---
 
 # Pending
 
-⬜ Phase 1 – Daily tracking (module screens + forms)  
 ⬜ Phase 2 – Training engine  
 ⬜ Phase 3 – Progress  
 ⬜ Phase 4 – Exports  
@@ -65,7 +81,7 @@ Home reflects product philosophy: status of all tracking modules first; training
 
 # Current Priority
 
-Await visual approval of the new Home before starting Phase 1 module screens.
+Start Phase 2 (Training engine) on the closed Phase 1 foundation. Do not reopen foundation/tracking UX unless functionally required.
 
 ---
 
@@ -77,17 +93,17 @@ main
 
 # Known Issues
 
-Module cards are entry-point stubs (toast). Full module screens deferred to Phase 1.
+None blocking Phase 2. Tracking modules are live (no longer entry-point stubs).
 
 ---
 
 # Decisions
 
-See DECISIONS.md (012: Home as tracking hub).
+See DECISIONS.md (012: Home as tracking hub; 013–016: Home visual passes).  
+Phase 1 closure + visual freeze recorded above (2026-07-31).
 
 ---
 
 # Next Task
 
-Product owner reviews Home.  
-Do not start Phase 1 until approved.
+Begin Phase 2 – Training engine.

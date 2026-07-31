@@ -29,4 +29,6 @@ See `/docs`.
 
 ## Phase
 
-Phase 0 — Foundation. Business features start after visual approval.
+Phase 0 — Foundation (Done).  
+Phase 1 — Tracking (Done). Visual language / UX patterns frozen.  
+Next: Phase 2 — Training engine (differential capabilities). See `/docs/STATUS.md`.
