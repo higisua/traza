@@ -32,6 +32,10 @@ import {
   formatSleepScore,
   useSleepEntries,
 } from "@/features/sleep";
+import {
+  formatStepsCount,
+  useStepsEntries,
+} from "@/features/steps";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
 import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
@@ -119,9 +123,11 @@ export function HomeDashboard() {
   const { summary } = useWeightEntries();
   const { summary: bpSummary } = useBloodPressureEntries();
   const { summary: sleepSummary } = useSleepEntries();
+  const { summary: stepsSummary } = useStepsEntries();
   const latestWeight = summary.latest;
   const latestBp = bpSummary.latest;
   const latestSleep = sleepSummary.latest;
+  const todaySteps = stepsSummary.today;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -323,12 +329,37 @@ export function HomeDashboard() {
               tone="quiet"
               label="Pasos"
               icon={Footprints}
-              onClick={() => openModuleSoon(showToast, "pasos")}
+              onClick={() => router.push("/steps")}
             >
-              <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-primary tabular-nums">
-                12.483
-              </p>
-              <p className="mt-1 text-[13px] font-medium text-text-muted">Hoy</p>
+              {stepsSummary.count > 0 ? (
+                <motion.div
+                  key={`${todaySteps.entryDate}-${todaySteps.totalSteps}`}
+                  initial={{ opacity: 0.72, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: motionDuration.normal,
+                    ease: motionEase.standard,
+                  }}
+                >
+                  <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-primary tabular-nums">
+                    {formatStepsCount(todaySteps.totalSteps)}
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    {todaySteps.goalReached
+                      ? "Objetivo conseguido"
+                      : "Hoy"}
+                  </p>
+                </motion.div>
+              ) : (
+                <>
+                  <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-muted">
+                    —
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    Sin registro
+                  </p>
+                </>
+              )}
             </ModuleTile>
 
             <ModuleTile
