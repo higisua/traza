@@ -27,6 +27,11 @@ export { WorkoutService } from "./WorkoutService";
 export { WorkoutHistoryService } from "./WorkoutHistoryService";
 export { WorkoutProgressService } from "./WorkoutProgressService";
 export { PRService } from "./PRService";
+export {
+  computeExerciseRecords,
+  evaluateSetRecords,
+  collectExerciseIds,
+} from "./prCompute";
 export { VolumeService } from "./VolumeService";
 export {
   computeSessionStats,
