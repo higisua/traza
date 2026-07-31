@@ -163,10 +163,14 @@ export function StepperField({
   );
 }
 
+/** Fine load nudge / snap grid (plates commonly move in half kilos). */
+const LOAD_STEP_KG = 0.5;
+const LOAD_COARSE_KG = 10;
+
 /**
  * Gym load without keyboard.
- * Fine ±1 kg / coarse ±10 kg + vertical scrub on the value (drag up/down).
- * Spanish display (52,5). Hold to repeat.
+ * Fine ±0.5 kg / coarse ±10 kg + vertical scrub on the value (drag up/down).
+ * Spanish display (52,5). Hold to repeat. Snaps to 0.5 kg.
  */
 export function LoadStepper({
   label = "Carga",
@@ -174,8 +178,8 @@ export function LoadStepper({
   onChange,
   className,
 }: LoadStepperProps) {
-  const fine = 1;
-  const coarse = 10;
+  const fine = LOAD_STEP_KG;
+  const coarse = LOAD_COARSE_KG;
   const valueRef = useRef(value);
   valueRef.current = value;
 
@@ -221,9 +225,9 @@ export function LoadStepper({
   function onScrubPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
     const drag = dragRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
-    // Drag up = heavier; ~8px per kg for fast gym adjustments.
+    // Drag up = heavier; ~8px per kg, snapped to the fine step.
     const deltaY = drag.startY - event.clientY;
-    const deltaKg = Math.round(deltaY / 8);
+    const deltaKg = Math.round(deltaY / 8 / fine) * fine;
     applyAbsolute(drag.startValue + deltaKg);
   }
 
@@ -249,7 +253,7 @@ export function LoadStepper({
         </button>
         <button
           type="button"
-          aria-label="Bajar 1 kg"
+          aria-label="Bajar 0,5 kg"
           className="flex h-[52px] w-[48px] shrink-0 items-center justify-center rounded-[16px] bg-surface-secondary text-text-primary active:scale-[0.97]"
           {...fineDown}
         >
@@ -292,7 +296,7 @@ export function LoadStepper({
         </div>
         <button
           type="button"
-          aria-label="Subir 1 kg"
+          aria-label="Subir 0,5 kg"
           className="flex h-[52px] w-[48px] shrink-0 items-center justify-center rounded-[16px] bg-surface-secondary text-text-primary active:scale-[0.97]"
           {...fineUp}
         >

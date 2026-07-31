@@ -252,7 +252,7 @@ export function useWorkoutSession(sessionId: string) {
       setEditingLast(false);
       setError(null);
       setDraftOverride(null);
-      return { kind: "edit_saved" };
+      return { kind: "edit_saved", prKinds: updated.prKinds };
     }
 
     // Guard: never append sets to an already-complete exercise.
@@ -295,6 +295,7 @@ export function useWorkoutSession(sessionId: string) {
         sameExerciseContinues: false,
         restSeconds: 0,
         nextExerciseIndex: null,
+        prKinds: result.prKinds,
       };
     }
 
@@ -315,6 +316,7 @@ export function useWorkoutSession(sessionId: string) {
         sameExerciseContinues: true,
         restSeconds: result.restSeconds,
         nextExerciseIndex: activeExerciseIndex,
+        prKinds: result.prKinds,
       };
     }
 
@@ -339,6 +341,7 @@ export function useWorkoutSession(sessionId: string) {
       sameExerciseContinues: false,
       restSeconds: result.restSeconds,
       nextExerciseIndex: advanced.nextIndex,
+      prKinds: result.prKinds,
     };
   }, [
     session,

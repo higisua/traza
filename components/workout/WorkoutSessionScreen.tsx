@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, ChevronLeft, ChevronRight } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, History } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { PageHeader } from "@/components/common/PageHeader";
 import {
@@ -11,6 +11,7 @@ import {
   PrimaryButton,
   SecondaryButton,
 } from "@/components/forms/Button";
+import { ExerciseHistorySheet } from "@/components/workout/ExerciseHistorySheet";
 import { RestTimerOverlay } from "@/components/workout/RestTimerOverlay";
 import {
   LoadStepper,
@@ -20,12 +21,16 @@ import {
   StepperField,
 } from "@/components/workout/SetControls";
 import {
+  PRService,
   WorkoutCatalog,
+  WorkoutProgressService,
   WorkoutService,
   formatExerciseProgress,
+  formatLastTimeCompact,
   formatSetProgress,
   formatSetSnapshotLine,
   useWorkoutSession,
+  type PersonalRecordKind,
 } from "@/features/workout";
 import { fadeSlideVariants, motionDuration, motionEase } from "@/lib/motion";
 
@@ -60,6 +65,8 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
   } = useWorkoutSession(sessionId);
 
   const [showCheck, setShowCheck] = useState(false);
+  const [prKinds, setPrKinds] = useState<PersonalRecordKind[]>([]);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const closingRef = useRef(false);
 
   const exercise = session?.exercises[activeExerciseIndex] ?? null;
@@ -77,7 +84,7 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
     : Math.min((exercise?.sets.length ?? 0) + (editingLast ? 0 : 1), plannedSets);
   const logContext = session
     ? WorkoutService.getExerciseLogContext(session, activeExerciseIndex)
-    : { lastSession: null, priorSet: null };
+    : { lastSession: null, priorSet: null, suggestedTarget: null };
   const restNext = session && rest
     ? WorkoutService.getRestNextContext(session, rest)
     : null;
@@ -95,13 +102,29 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
   const canBrowseForward =
     session != null && activeExerciseIndex < session.exercises.length - 1;
 
+  // Suggestion is last-session guidance for set 1 only. After a set is logged,
+  // "Serie anterior" (progressive preload) is the source of truth — keep
+  // showing a stale last-session target would contradict it.
+  const showSuggested =
+    logContext.priorSet == null &&
+    logContext.suggestedTarget != null &&
+    WorkoutProgressService.differsFromLast(
+      logContext.suggestedTarget,
+      logContext.lastSession,
+    );
+  const hasLogContext =
+    logContext.lastSession != null ||
+    logContext.priorSet != null ||
+    showSuggested;
+
   useEffect(() => {
     if (!justLogged) return;
     setShowCheck(true);
     const id = window.setTimeout(() => {
       setShowCheck(false);
+      setPrKinds([]);
       clearJustLogged();
-    }, 520);
+    }, 900);
     return () => window.clearTimeout(id);
   }, [justLogged, clearJustLogged]);
 
@@ -142,6 +165,12 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
     if (closingRef.current) return;
     const outcome = logSet();
     if (!outcome) return;
+
+    if (outcome.prKinds.length > 0) {
+      setPrKinds(outcome.prKinds);
+    } else {
+      setPrKinds([]);
+    }
 
     if (outcome.kind === "logged" && outcome.sessionComplete) {
       closingRef.current = true;
@@ -228,7 +257,7 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
           <AnimatePresence>
             {showCheck ? (
               <motion.div
-                className="pointer-events-none absolute inset-x-0 top-[72px] z-10 flex justify-center"
+                className="pointer-events-none absolute inset-x-0 top-[72px] z-10 flex flex-col items-center"
                 initial={{ opacity: 0, scale: 0.7, y: 8 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: -6 }}
@@ -244,6 +273,11 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
                     className="text-text-primary"
                   />
                 </div>
+                {prKinds.length > 0 ? (
+                  <p className="mt-2 rounded-full bg-surface/95 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.05em] text-text-secondary shadow-xs ring-1 ring-border-light/80">
+                    {PRService.labelEs(prKinds[0]!)}
+                  </p>
+                ) : null}
               </motion.div>
             ) : null}
           </AnimatePresence>
@@ -260,9 +294,19 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
           </div>
 
           <div className="mt-1 text-center">
-            <h2 className="text-[24px] font-bold leading-tight tracking-[-0.03em] text-text-primary">
-              {catalog.nameEs}
-            </h2>
+            <div className="flex items-center justify-center gap-1.5">
+              <h2 className="text-[24px] font-bold leading-tight tracking-[-0.03em] text-text-primary">
+                {catalog.nameEs}
+              </h2>
+              <button
+                type="button"
+                aria-label="Ver historial del ejercicio"
+                onClick={() => setHistoryOpen(true)}
+                className="flex h-[32px] w-[32px] items-center justify-center rounded-[10px] text-text-muted transition-colors hover:bg-surface-secondary/80 hover:text-text-primary"
+              >
+                <History size={16} strokeWidth={2.2} />
+              </button>
+            </div>
             <p className="mt-1 text-[14px] font-semibold text-text-secondary">
               {exerciseComplete && !editingLast
                 ? "Completado"
@@ -308,19 +352,38 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
             </div>
           ) : (
             <>
-              {!editingLast &&
-              (logContext.lastSession || logContext.priorSet) ? (
+              {/* Context stays visible for the whole set — never hide mid-log. */}
+              {hasLogContext ? (
                 <div className="mt-3 space-y-1.5 rounded-[16px] bg-surface/70 px-3.5 py-2.5 ring-1 ring-border-light/70">
                   {logContext.lastSession ? (
                     <p className="text-[13px] leading-snug text-text-secondary">
                       <span className="font-medium text-text-muted">
-                        Última sesión
+                        Última vez
                       </span>
                       <span className="mx-1.5 text-text-muted/50">·</span>
                       <span className="tabular-nums text-text-primary">
-                        {formatSetSnapshotLine(logContext.lastSession)}
+                        {formatLastTimeCompact(logContext.lastSession)}
                       </span>
                     </p>
+                  ) : null}
+                  {showSuggested && logContext.suggestedTarget ? (
+                    <>
+                      <div
+                        className="h-px bg-border-light/80"
+                        aria-hidden
+                      />
+                      <p className="text-[13px] leading-snug text-text-secondary">
+                        <span className="font-medium text-text-muted">
+                          Objetivo sugerido
+                        </span>
+                        <span className="mx-1.5 text-text-muted/50">·</span>
+                        <span className="tabular-nums font-semibold text-text-primary">
+                          {WorkoutProgressService.formatTargetCompact(
+                            logContext.suggestedTarget,
+                          )}
+                        </span>
+                      </p>
+                    </>
                   ) : null}
                   {logContext.priorSet ? (
                     <p className="text-[13px] leading-snug text-text-secondary">
@@ -420,6 +483,13 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
           onResume={resumeRest}
         />
       ) : null}
+
+      <ExerciseHistorySheet
+        open={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        exerciseId={exercise.exerciseId}
+        exerciseName={catalog.nameEs}
+      />
     </div>
   );
 }

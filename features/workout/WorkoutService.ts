@@ -4,6 +4,7 @@ import type {
   WorkoutSessionExercise,
   WorkoutSet,
 } from "@/lib/storage/trainingStorage";
+import { PRService } from "./PRService";
 import { WorkoutCatalog } from "./WorkoutCatalog";
 import {
   computeSessionStats,
@@ -11,10 +12,12 @@ import {
   parseDraftNumber,
   todaySessionDate,
 } from "./WorkoutFormat";
+import { WorkoutProgressService } from "./WorkoutProgressService";
 import { WorkoutRepository } from "./WorkoutRepository";
 import type {
   ExerciseLogContext,
   ExerciseNavState,
+  PersonalRecordKind,
   RestNextContext,
   RestState,
   RoutineLastSessionSummary,
@@ -171,6 +174,9 @@ export const WorkoutService = {
     );
 
     const lastSet = exercise?.sets[exercise.sets.length - 1] ?? null;
+
+    // Preload from previous in-session set, else last finished session —
+    // never from the suggested target (shown in context UI only).
     const priorSet =
       exercise && !lastSet
         ? findPriorSessionSet(session, exercise.exerciseId)
@@ -261,7 +267,11 @@ export const WorkoutService = {
     sessionId: string,
     exerciseIndex: number,
     draft: SetDraft,
-  ): { session: WorkoutSession; restSeconds: number } | null {
+  ): {
+    session: WorkoutSession;
+    restSeconds: number;
+    prKinds: PersonalRecordKind[];
+  } | null {
     const current = WorkoutRepository.getSessionById(sessionId);
     if (!current || current.status !== "in_progress") return null;
 
@@ -300,6 +310,10 @@ export const WorkoutService = {
       nextSet.rir = draft.rir;
     }
 
+    const prKinds = PRService.evaluateSet(exercise.exerciseId, nextSet, {
+      excludeSessionId: sessionId,
+    });
+
     exercise.sets = [...exercise.sets, nextSet];
     if (draft.rir != null) {
       exercise.lastSetRir = draft.rir;
@@ -312,14 +326,14 @@ export const WorkoutService = {
     const saved = WorkoutRepository.saveSession(session);
     const restSeconds = restSecondsFor(routineSlug, exercise.exerciseId);
 
-    return { session: saved, restSeconds };
+    return { session: saved, restSeconds, prKinds };
   },
 
   updateLastSet(
     sessionId: string,
     exerciseIndex: number,
     draft: SetDraft,
-  ): WorkoutSession | null {
+  ): { session: WorkoutSession; prKinds: PersonalRecordKind[] } | null {
     const current = WorkoutRepository.getSessionById(sessionId);
     if (!current || current.status !== "in_progress") return null;
 
@@ -364,7 +378,14 @@ export const WorkoutService = {
       plannedSets,
     );
 
-    return WorkoutRepository.saveSession(session);
+    const prKinds = PRService.evaluateSet(exercise.exerciseId, last, {
+      excludeSessionId: sessionId,
+    });
+
+    return {
+      session: WorkoutRepository.saveSession(session),
+      prKinds,
+    };
   },
 
   markExerciseComplete(
@@ -544,7 +565,7 @@ export const WorkoutService = {
   ): ExerciseLogContext {
     const exercise = session.exercises[exerciseIndex];
     if (!exercise) {
-      return { lastSession: null, priorSet: null };
+      return { lastSession: null, priorSet: null, suggestedTarget: null };
     }
 
     const priorInSession =
@@ -552,10 +573,15 @@ export const WorkoutService = {
         ? toSnapshot(exercise.sets[exercise.sets.length - 1]!)
         : null;
     const lastSessionSet = findPriorSessionSet(session, exercise.exerciseId);
+    const suggestedTarget = WorkoutProgressService.getSuggestedTarget(
+      exercise.exerciseId,
+      session.templateId,
+    );
 
     return {
       lastSession: lastSessionSet ? toSnapshot(lastSessionSet) : null,
       priorSet: priorInSession,
+      suggestedTarget,
     };
   },
 

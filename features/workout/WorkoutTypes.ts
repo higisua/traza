@@ -68,9 +68,63 @@ export type SetSnapshot = {
   rir: number | null;
 };
 
+/** Why a suggested target was chosen — see WorkoutProgressService docs. */
+export type SuggestedTargetReason =
+  | "keep"
+  | "add_rep"
+  | "increase_load";
+
+export type SuggestedTarget = SetSnapshot & {
+  reason: SuggestedTargetReason;
+};
+
 export type ExerciseLogContext = {
   lastSession: SetSnapshot | null;
   priorSet: SetSnapshot | null;
+  suggestedTarget: SuggestedTarget | null;
+};
+
+export type PersonalRecordKind = "max_load" | "max_reps" | "max_volume";
+
+export type PersonalRecordResult = {
+  kind: PersonalRecordKind;
+  setId: string;
+  sessionId: string;
+  sessionDate: string;
+  load: number | null;
+  repetitions: number | null;
+  volumeKg: number;
+};
+
+export type ExerciseHistorySetRow = {
+  setId: string;
+  setNumber: number;
+  load: number | null;
+  repetitions: number | null;
+  durationSeconds: number | null;
+  rir: number | null;
+  volumeKg: number;
+  prKinds: PersonalRecordKind[];
+};
+
+export type ExerciseHistorySession = {
+  sessionId: string;
+  sessionDate: string;
+  routineSlug: string | null;
+  routineNameEs: string | null;
+  volumeKg: number;
+  sets: ExerciseHistorySetRow[];
+};
+
+export type ExerciseHistorySummary = {
+  exerciseId: string;
+  sessionCount: number;
+  totalVolumeKg: number;
+  bestLoad: number | null;
+  bestReps: number | null;
+  bestSetVolume: number | null;
+  records: PersonalRecordResult[];
+  lastSessionDate: string | null;
 };
 
 export type RestNextContext = {
@@ -90,11 +144,12 @@ export type RoutineLastSessionSummary = {
 
 /** Outcome after logging a set — drives UI animation + navigation. */
 export type LogSetOutcome =
-  | { kind: "edit_saved" }
+  | { kind: "edit_saved"; prKinds: PersonalRecordKind[] }
   | {
       kind: "logged";
       sessionComplete: boolean;
       sameExerciseContinues: boolean;
       restSeconds: number;
       nextExerciseIndex: number | null;
+      prKinds: PersonalRecordKind[];
     };

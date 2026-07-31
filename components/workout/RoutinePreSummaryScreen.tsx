@@ -108,27 +108,36 @@ export function RoutinePreSummaryScreen({ slug }: RoutinePreSummaryScreenProps) 
                     ease: motionEase.standard,
                     delay: index * 0.025,
                   }}
-                  className="flex items-center gap-3"
                 >
-                  <div className="relative h-[40px] w-[40px] shrink-0 overflow-hidden rounded-[12px] bg-surface-secondary/60">
-                    <Image
-                      src={exercise.image}
-                      alt=""
-                      fill
-                      sizes="40px"
-                      className="object-contain p-0.5"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-[15px] font-semibold text-text-primary">
-                      {exercise.nameEs}
-                    </p>
-                    <p className="text-caption text-text-muted">
-                      {plan.durationMinutes
-                        ? `${plan.durationMinutes} min`
-                        : `${plan.sets} series`}
-                    </p>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      router.push(`/exercises/${plan.exerciseSlug}/history`)
+                    }
+                    className="flex w-full items-center gap-3 rounded-[14px] text-left transition-colors hover:bg-surface-secondary/40 active:bg-surface-secondary/60"
+                  >
+                    <div className="relative h-[40px] w-[40px] shrink-0 overflow-hidden rounded-[12px] bg-surface-secondary/60">
+                      <Image
+                        src={exercise.image}
+                        alt=""
+                        fill
+                        sizes="40px"
+                        className="object-contain p-0.5"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1 py-1">
+                      <p className="truncate text-[15px] font-semibold text-text-primary">
+                        {exercise.nameEs}
+                      </p>
+                      <p className="text-caption text-text-muted">
+                        {plan.durationMinutes
+                          ? `${plan.durationMinutes} min`
+                          : `${plan.sets} series`}
+                        <span className="mx-1.5 text-text-muted/40">·</span>
+                        Historial
+                      </p>
+                    </div>
+                  </button>
                 </motion.li>
               );
             })}

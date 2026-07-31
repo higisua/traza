@@ -87,6 +87,34 @@ export function formatSetSnapshotLine(set: SetSnapshot): string {
   return parts.length > 0 ? parts.join(" · ") : "—";
 }
 
+/** Compact last-time line without units noise: "52,5 × 9 · RIR 2". */
+export function formatLastTimeCompact(set: SetSnapshot): string {
+  if (set.durationSeconds != null) {
+    return `${set.durationSeconds} s`;
+  }
+  const parts: string[] = [];
+  if (set.load != null && set.repetitions != null) {
+    parts.push(`${formatLoadDisplay(set.load)} × ${set.repetitions}`);
+  } else {
+    if (set.load != null) parts.push(`${formatLoadDisplay(set.load)} kg`);
+    if (set.repetitions != null) parts.push(`${set.repetitions} reps`);
+  }
+  if (set.rir != null) parts.push(`RIR ${set.rir}`);
+  return parts.length > 0 ? parts.join(" · ") : "—";
+}
+
+/** Session history date label (Hoy / Ayer / d MMM yyyy). */
+export function formatHistorySessionDate(sessionDate: string): string {
+  const date = parse(sessionDate, "yyyy-MM-dd", new Date());
+  if (Number.isNaN(date.getTime())) return sessionDate;
+
+  const days = differenceInCalendarDays(new Date(), date);
+  if (days <= 0) return "Hoy";
+  if (days === 1) return "Ayer";
+  if (days < 14) return `Hace ${days} días`;
+  return format(date, "d MMM yyyy", { locale: es });
+}
+
 export function formatRepRange(min: number, max: number): string {
   if (min === max) return `${min} reps`;
   return `${min}–${max} reps`;
