@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { Trash2 } from "lucide-react";
 import { useRef, useState, type ReactNode } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 const DELETE_WIDTH = 76;
@@ -29,13 +30,13 @@ export function ModuleHistoryRow({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 12, scale: 0.985 }}
+      initial={{ opacity: 0, y: 8, scale: 0.985 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -8, scale: 0.98 }}
+      exit={{ opacity: 0, y: -6, scale: 0.98 }}
       transition={{
         delay: Math.min(index * 0.035, 0.2),
-        duration: 0.28,
-        ease: [0.22, 1, 0.36, 1],
+        duration: motionDuration.normal,
+        ease: motionEase.standard,
       }}
       className="relative overflow-hidden rounded-[16px]"
     >
@@ -74,7 +75,7 @@ export function ModuleHistoryRow({
         }}
         className={cn(
           "relative z-10 flex w-full items-center gap-3 bg-surface px-4 py-3.5 text-left shadow-xs",
-          "ring-1 ring-black/[0.03]",
+          "ring-1 ring-black/[0.04]",
         )}
       >
         {children}

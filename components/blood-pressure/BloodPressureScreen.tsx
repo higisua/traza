@@ -18,6 +18,7 @@ import {
   useBloodPressureEntries,
   type BloodPressureEntry,
 } from "@/features/blood-pressure";
+import { motionDuration, motionEase } from "@/lib/motion";
 
 function StatusEmptyIllustration() {
   return (
@@ -103,8 +104,9 @@ export function BloodPressureScreen() {
           ) : (
             <motion.div
               key="filled"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: motionDuration.normal, ease: motionEase.standard }}
               className="flex flex-col gap-4"
             >
               {/* Same structure as Weight; personality lives in the summary (estado). */}

@@ -39,7 +39,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     const showClear = Boolean(onClear && value !== undefined && value !== "" && !disabled);
 
     return (
-      <div className={cn("flex w-full flex-col gap-3", containerClassName)}>
+      <div className={cn("flex w-full flex-col gap-2", containerClassName)}>
         {label ? (
           <label
             htmlFor={inputId}
@@ -61,7 +61,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             autoComplete="off"
             className={cn(
               "h-[length:var(--traza-input-height)] w-full rounded-[var(--traza-radius-input)]",
-              "border border-border/80 bg-surface px-5 shadow-xs",
+              "border border-border/80 bg-surface px-4 shadow-xs",
               "text-section font-bold leading-display tracking-title text-text-primary tabular-nums",
               "placeholder:text-text-muted placeholder:text-body placeholder:font-normal",
               "transition-[border-color,box-shadow] duration-[var(--traza-duration-normal)]",

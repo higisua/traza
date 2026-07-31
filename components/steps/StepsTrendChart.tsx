@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import type { StepsChartPoint } from "@/features/steps";
 import { formatStepsCount } from "@/features/steps";
 
@@ -66,9 +67,9 @@ export function StepsTrendChart({ points }: StepsTrendChartProps) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
       className="overflow-hidden rounded-[24px] bg-surface shadow-s ring-1 ring-black/[0.04]"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
@@ -145,8 +146,8 @@ export function StepsTrendChart({ points }: StepsTrendChartProps) {
                 style={{ originY: 1 }}
                 transition={{
                   delay: index * 0.035,
-                  duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: motionDuration.slow,
+                  ease: motionEase.standard,
                 }}
               />
             );

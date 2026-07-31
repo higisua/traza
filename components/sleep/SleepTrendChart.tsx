@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import type { SleepChartPoint } from "@/features/sleep";
 import { formatSleepDuration } from "@/features/sleep";
 
@@ -76,9 +77,9 @@ export function SleepTrendChart({ points }: SleepTrendChartProps) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
       className="overflow-hidden rounded-[24px] bg-surface shadow-s ring-1 ring-black/[0.04]"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
@@ -154,8 +155,8 @@ export function SleepTrendChart({ points }: SleepTrendChartProps) {
                 style={{ originY: 1, originX: 0.5 }}
                 transition={{
                   delay: index * 0.04,
-                  duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1],
+                  duration: motionDuration.slow,
+                  ease: motionEase.standard,
                 }}
               />
               {bar.scoreY !== null ? (
@@ -168,7 +169,7 @@ export function SleepTrendChart({ points }: SleepTrendChartProps) {
                   strokeWidth="1.5"
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.2 + index * 0.04, duration: 0.25 }}
+                  transition={{ delay: 0.2 + index * 0.04, duration: motionDuration.normal }}
                 />
               ) : null}
             </g>

@@ -18,14 +18,14 @@ export function ModuleHistoryList({
 }: ModuleHistoryListProps) {
   return (
     <section>
-      <div className="mb-3 flex items-center justify-between gap-3">
+      <div className="mb-3 flex items-end justify-between gap-3">
         <div>
           <p className="text-[11px] font-semibold tracking-[0.08em] text-text-muted uppercase">
             Historial
           </p>
           <p className="mt-0.5 text-[11px] font-medium text-text-muted">{hint}</p>
         </div>
-        <p className="shrink-0 text-[11px] font-medium text-text-muted">
+        <p className="shrink-0 pb-px text-[11px] font-medium text-text-muted">
           {count} {count === 1 ? "registro" : "registros"}
         </p>
       </div>

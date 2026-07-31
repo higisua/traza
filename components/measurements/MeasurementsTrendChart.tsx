@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import type { MeasurementChartPoint } from "@/features/measurements";
 import { formatCm } from "@/features/measurements";
 
@@ -42,10 +43,10 @@ export function MeasurementsTrendChart({ points }: MeasurementsTrendChartProps) 
     if (points.length === 0) return null;
 
     const width = 360;
-    const height = 196;
+    const height = 188;
     const padLeft = 36;
     const padRight = 16;
-    const padTop = 18;
+    const padTop = 20;
     const padBottom = 28;
     const values = points.flatMap((p) => [p.waistCm, p.armCm, p.legCm]);
     const dataMin = Math.min(...values);
@@ -113,9 +114,9 @@ export function MeasurementsTrendChart({ points }: MeasurementsTrendChartProps) 
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
       className="overflow-hidden rounded-[24px] bg-surface shadow-s ring-1 ring-black/[0.04]"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
@@ -146,7 +147,7 @@ export function MeasurementsTrendChart({ points }: MeasurementsTrendChartProps) 
       <div className="px-2 pb-2 pt-1">
         <svg
           viewBox={`0 0 ${geometry.width} ${geometry.height}`}
-          className="h-[196px] w-full"
+          className="h-[188px] w-full"
           role="img"
           aria-label="Evolución de las medidas corporales"
         >
@@ -193,9 +194,9 @@ export function MeasurementsTrendChart({ points }: MeasurementsTrendChartProps) 
               initial={{ pathLength: 0, opacity: 0.35 }}
               animate={{ pathLength: 1, opacity: 1 }}
               transition={{
-                duration: 0.7,
+                duration: motionDuration.chart,
                 delay: seriesIndex * 0.06,
-                ease: [0.22, 1, 0.36, 1],
+                ease: motionEase.standard,
               }}
             />
           ))}

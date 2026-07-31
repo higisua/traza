@@ -7,6 +7,7 @@ import {
   formatSleepScore,
 } from "@/features/sleep";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type SleepSummaryCardProps = {
@@ -33,9 +34,9 @@ export function SleepSummaryCard({ summary }: SleepSummaryCardProps) {
   return (
     <motion.section
       key={latest.id}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.page, ease: motionEase.standard }}
       className="relative overflow-hidden rounded-[24px] bg-surface p-5 shadow-m ring-1 ring-black/[0.04]"
     >
       <div
@@ -56,9 +57,9 @@ export function SleepSummaryCard({ summary }: SleepSummaryCardProps) {
       <div className="relative mt-3">
         <motion.p
           key={latest.durationMinutes}
-          initial={{ opacity: 0.5, y: 6 }}
+          initial={{ opacity: 0.55, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: motionDuration.normal, ease: motionEase.standard }}
           className="text-[42px] font-bold leading-none tracking-[-0.035em] text-text-primary tabular-nums"
         >
           {formatSleepDuration(latest.durationMinutes)}

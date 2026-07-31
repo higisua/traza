@@ -15,7 +15,7 @@ export function PageHeader({ title, onBack, action, className }: PageHeaderProps
   return (
     <header
       className={cn(
-        "flex h-[length:var(--traza-page-header-height)] items-center gap-3",
+        "flex h-[length:var(--traza-page-header-height)] items-center gap-2",
         className,
       )}
     >
@@ -24,9 +24,9 @@ export function PageHeader({ title, onBack, action, className }: PageHeaderProps
           type="button"
           onClick={onBack}
           aria-label="Volver"
-          className="flex size-12 shrink-0 items-center justify-center rounded-m text-text-primary hover:bg-surface-secondary"
+          className="flex size-[44px] shrink-0 items-center justify-center rounded-[12px] text-text-primary transition-colors duration-[var(--traza-duration-fast)] hover:bg-surface-secondary/80"
         >
-          <ChevronLeft size={24} strokeWidth={2} />
+          <ChevronLeft size={22} strokeWidth={2} />
         </button>
       ) : (
         <div className="w-2" />

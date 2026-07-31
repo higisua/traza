@@ -14,6 +14,7 @@ import {
   ModuleEmptyState,
   ModuleScreen,
 } from "@/components/tracking";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { useSleepEntries, type SleepEntry } from "@/features/sleep";
 
 function SleepEmptyIllustration() {
@@ -102,7 +103,7 @@ export function SleepScreen() {
               key="filled"
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: motionDuration.normal, ease: motionEase.standard }}
               className="flex flex-col gap-4"
             >
               <SleepTrendChart

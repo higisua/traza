@@ -88,7 +88,7 @@ export function ConfirmationDialog({
               {description}
             </p>
             {children}
-            <div className="mt-6 flex flex-col gap-3">
+            <div className="mt-6 flex flex-col gap-2">
               {tone === "danger" ? (
                 <DangerButton onClick={onConfirm}>{confirmLabel}</DangerButton>
               ) : (

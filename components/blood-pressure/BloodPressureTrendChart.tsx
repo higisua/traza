@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useId, useMemo } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import type { BloodPressureChartPoint } from "@/features/blood-pressure";
 
 type BloodPressureTrendChartProps = {
@@ -98,9 +99,9 @@ export function BloodPressureTrendChart({ points }: BloodPressureTrendChartProps
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
       className="overflow-hidden rounded-[24px] bg-surface shadow-s ring-1 ring-black/[0.04]"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
@@ -172,7 +173,7 @@ export function BloodPressureTrendChart({ points }: BloodPressureTrendChartProps
             strokeLinejoin="round"
             initial={{ pathLength: 0, opacity: 0.35 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+            transition={{ duration: motionDuration.chart, ease: motionEase.standard, delay: 0.05 }}
           />
           <motion.path
             d={geometry.sysLine}
@@ -183,7 +184,7 @@ export function BloodPressureTrendChart({ points }: BloodPressureTrendChartProps
             strokeLinejoin="round"
             initial={{ pathLength: 0, opacity: 0.35 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: motionDuration.chart, ease: motionEase.standard }}
           />
 
           {geometry.diaCoords.map((coord, index) => {

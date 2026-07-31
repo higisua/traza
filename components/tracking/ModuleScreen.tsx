@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
 import { PageHeader } from "@/components/common/PageHeader";
+import { fadeSlideVariants } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type ModuleScreenProps = {
@@ -25,9 +26,9 @@ export function ModuleScreen({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      variants={fadeSlideVariants}
+      initial="hidden"
+      animate="visible"
       className={cn(
         "relative min-h-dvh",
         isEmpty
@@ -37,7 +38,7 @@ export function ModuleScreen({
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-[linear-gradient(180deg,var(--traza-primary-soft)_0%,transparent_100%)] opacity-80"
+        className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[linear-gradient(180deg,var(--traza-primary-soft)_0%,transparent_100%)] opacity-85"
       />
 
       <div className="relative px-5 pt-2">
@@ -46,7 +47,7 @@ export function ModuleScreen({
           onBack={() => router.push(backHref)}
           action={action}
         />
-        <div className="mt-2 flex flex-col gap-4">{children}</div>
+        <div className="mt-3 flex flex-col gap-4">{children}</div>
       </div>
     </motion.div>
   );

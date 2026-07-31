@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { PrimaryButton } from "@/components/forms/Button";
+import { fadeSlideVariants } from "@/lib/motion";
 
 type ModuleEmptyStateProps = {
   title: string;
@@ -24,10 +25,10 @@ export function ModuleEmptyState({
 }: ModuleEmptyStateProps) {
   return (
     <motion.section
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-      className="relative overflow-hidden rounded-[28px] bg-surface px-5 pb-6 pt-8 text-center shadow-m ring-1 ring-black/[0.04]"
+      variants={fadeSlideVariants}
+      initial="hidden"
+      animate="visible"
+      className="relative overflow-hidden rounded-[24px] bg-surface px-5 pb-6 pt-8 text-center shadow-m ring-1 ring-black/[0.04]"
     >
       <div
         aria-hidden
@@ -40,11 +41,11 @@ export function ModuleEmptyState({
         </div>
       ) : null}
 
-      <div className="relative mx-auto mb-4 flex size-12 items-center justify-center rounded-[14px] bg-primary-soft text-text-primary">
+      <div className="relative mx-auto mb-4 flex size-12 items-center justify-center rounded-[12px] bg-primary-soft text-text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
         <Icon size={22} strokeWidth={1.8} />
       </div>
 
-      <h2 className="relative text-[20px] font-semibold tracking-[-0.02em] text-text-primary">
+      <h2 className="relative text-[20px] font-semibold leading-title tracking-[-0.02em] text-text-primary">
         {title}
       </h2>
       <p className="relative mx-auto mt-2 max-w-[16rem] text-[14px] leading-snug text-text-secondary">

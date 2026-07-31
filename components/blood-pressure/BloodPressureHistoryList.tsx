@@ -32,6 +32,11 @@ export function BloodPressureHistoryList({
           onDelete={() => onDelete(entry)}
         >
           <div className="min-w-0 flex-1">
+            <p className="text-[14px] font-semibold tabular-nums text-text-primary">
+              {formatEntryStamp(entry)}
+            </p>
+          </div>
+          <div className="text-right">
             <p className="text-[15px] font-bold tabular-nums text-text-primary">
               {formatBloodPressureReading(entry.systolic, entry.diastolic)}
             </p>
@@ -39,9 +44,6 @@ export function BloodPressureHistoryList({
               {formatPulse(entry.pulse)}
             </p>
           </div>
-          <p className="shrink-0 text-[13px] font-semibold tabular-nums text-text-muted">
-            {formatEntryStamp(entry)}
-          </p>
         </ModuleHistoryRow>
       ))}
     </ModuleHistoryList>

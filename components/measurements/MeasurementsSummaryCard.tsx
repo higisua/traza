@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import type { MeasurementMetricDelta, MeasurementSummary } from "@/features/measurements";
 import { formatCm, formatSignedDeltaCm } from "@/features/measurements";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type MeasurementsSummaryCardProps = {
@@ -64,7 +65,7 @@ function MetricBlock({
           initial={{ opacity: 0.55, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           className={cn(
-            "font-bold leading-none tracking-[-0.03em] text-text-primary tabular-nums",
+            "font-bold leading-none tracking-[-0.035em] text-text-primary tabular-nums",
             featured ? "text-[36px]" : "text-[22px]",
           )}
         >
@@ -73,7 +74,7 @@ function MetricBlock({
         <span
           className={cn(
             "font-semibold text-text-muted",
-            featured ? "text-[14px]" : "text-[12px]",
+            featured ? "text-[15px]" : "text-[12px]",
           )}
         >
           cm
@@ -93,14 +94,14 @@ export function MeasurementsSummaryCard({
   return (
     <motion.section
       key={latest.id}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.page, ease: motionEase.standard }}
       className="relative overflow-hidden rounded-[24px] bg-surface p-5 shadow-m ring-1 ring-black/[0.04]"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-primary/18 blur-3xl"
+        className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-primary/20 blur-3xl"
       />
 
       <div className="relative flex items-center justify-between gap-3">

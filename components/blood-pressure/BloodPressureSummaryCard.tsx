@@ -7,6 +7,7 @@ import {
   formatPulse,
 } from "@/features/blood-pressure";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type BloodPressureSummaryCardProps = {
@@ -36,12 +37,12 @@ export function BloodPressureSummaryCard({
       key={latest.id}
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.page, ease: motionEase.standard }}
       className="relative overflow-hidden rounded-[24px] bg-surface p-5 shadow-m ring-1 ring-black/[0.04]"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-primary/18 blur-3xl"
+        className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-primary/20 blur-3xl"
       />
 
       <div className="relative flex items-center justify-between gap-3">
@@ -53,18 +54,7 @@ export function BloodPressureSummaryCard({
         </p>
       </div>
 
-      <div className="relative mt-4">
-        <span
-          className={cn(
-            "inline-flex rounded-full px-3 py-1 text-[13px] font-semibold tracking-[-0.01em]",
-            toneClasses[category.tone],
-          )}
-        >
-          {category.label}
-        </span>
-      </div>
-
-      <div className="relative mt-4 flex items-baseline gap-1.5">
+      <div className="relative mt-3 flex items-baseline gap-1.5">
         <motion.span
           key={`${latest.systolic}-${latest.diastolic}`}
           initial={{ opacity: 0.55, y: 4 }}
@@ -73,6 +63,17 @@ export function BloodPressureSummaryCard({
         >
           {formatBloodPressureReading(latest.systolic, latest.diastolic)}
         </motion.span>
+      </div>
+
+      <div className="relative mt-3">
+        <span
+          className={cn(
+            "inline-flex rounded-full px-3 py-1 text-[13px] font-semibold tracking-[-0.01em]",
+            toneClasses[category.tone],
+          )}
+        >
+          {category.label}
+        </span>
       </div>
 
       <p className="relative mt-3 text-[16px] font-semibold tabular-nums text-text-secondary">

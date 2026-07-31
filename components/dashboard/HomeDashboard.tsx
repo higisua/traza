@@ -53,7 +53,7 @@ import { cn } from "@/lib/utils/cn";
 function IconWell({ icon: Icon }: { icon: LucideIcon }) {
   return (
     <span className="flex size-8 shrink-0 items-center justify-center rounded-[10px] bg-primary-soft text-text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.65)]">
-      <Icon size={16} strokeWidth={2} aria-hidden />
+      <Icon size={16} strokeWidth={1.9} aria-hidden />
     </span>
   );
 }
@@ -92,24 +92,24 @@ function ModuleTile({
         tone === "elevated" &&
           "bg-surface shadow-s hover:shadow-m",
         tone === "quiet" &&
-          "bg-surface-secondary/90 shadow-xs hover:bg-surface-secondary",
+          "bg-surface-secondary/80 shadow-xs ring-black/[0.03] hover:bg-surface-secondary",
         className,
       )}
     >
       {tone === "hero" ? (
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-8 -top-10 size-36 rounded-full bg-primary/25 blur-3xl"
+          className="pointer-events-none absolute -right-8 -top-10 size-36 rounded-full bg-primary/20 blur-3xl"
         />
       ) : null}
 
       <div className="relative flex items-start justify-between gap-2">
-        <span className="text-[11px] font-medium tracking-[0.06em] text-text-muted uppercase">
+        <span className="text-[11px] font-semibold tracking-[0.08em] text-text-muted uppercase">
           {label}
         </span>
         <IconWell icon={icon} />
       </div>
-      <div className="relative mt-1.5">{children}</div>
+      <div className="relative mt-2">{children}</div>
     </motion.button>
   );
 }
@@ -133,7 +133,7 @@ export function HomeDashboard() {
       {/* Atmospheric page wash */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-56 bg-[linear-gradient(180deg,var(--traza-primary-soft)_0%,transparent_100%)] opacity-90"
+        className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[linear-gradient(180deg,var(--traza-primary-soft)_0%,transparent_100%)] opacity-85"
       />
 
       {/* Header — memorable brand moment */}
@@ -168,7 +168,7 @@ export function HomeDashboard() {
           <Link
             href="/more"
             aria-label="Ajustes"
-            className="flex size-11 items-center justify-center text-text-secondary transition-colors hover:text-text-primary"
+            className="flex size-[44px] items-center justify-center rounded-[12px] text-text-secondary transition-colors duration-[var(--traza-duration-fast)] hover:bg-surface-secondary/80 hover:text-text-primary"
           >
             <Settings size={20} strokeWidth={1.7} />
           </Link>
@@ -408,15 +408,15 @@ export function HomeDashboard() {
           whileHover={{ y: -1 }}
           whileTap={{ scale: 0.99 }}
           transition={{ duration: motionDuration.fast, ease: motionEase.standard }}
-          className="relative overflow-hidden rounded-[22px] bg-surface-warm shadow-m ring-1 ring-black/[0.04]"
+          className="relative overflow-hidden rounded-[24px] bg-surface-warm shadow-m ring-1 ring-black/[0.04]"
         >
           <div
             aria-hidden
-            className="pointer-events-none absolute -left-10 top-0 size-40 rounded-full bg-primary/30 blur-3xl"
+            className="pointer-events-none absolute -left-10 top-0 size-40 rounded-full bg-primary/22 blur-3xl"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-6 bottom-0 size-32 rounded-full bg-primary/20 blur-2xl"
+            className="pointer-events-none absolute -right-6 bottom-0 size-32 rounded-full bg-primary/16 blur-2xl"
           />
           <div
             aria-hidden

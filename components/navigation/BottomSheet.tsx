@@ -64,7 +64,7 @@ export function BottomSheet({
               className,
             )}
           >
-            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-border-strong" />
+            <div className="mx-auto mb-4 h-1 w-[40px] rounded-full bg-border-strong/80" />
             {title ? (
               <h2 className="mb-5 text-card-title font-semibold leading-title tracking-title text-text-primary">
                 {title}

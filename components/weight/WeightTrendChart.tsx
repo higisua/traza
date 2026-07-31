@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useId, useMemo } from "react";
+import { motionDuration, motionEase } from "@/lib/motion";
 import type { WeightChartPoint } from "@/features/weight";
 import { formatWeightKg } from "@/features/weight";
 
@@ -115,9 +116,9 @@ export function WeightTrendChart({ points }: WeightTrendChartProps) {
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
       className="overflow-hidden rounded-[24px] bg-surface shadow-s ring-1 ring-black/[0.04]"
     >
       <div className="flex items-start justify-between gap-3 px-5 pt-5">
@@ -187,7 +188,7 @@ export function WeightTrendChart({ points }: WeightTrendChartProps) {
             fill={`url(#weightArea-${gradientId})`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.12 }}
+            transition={{ duration: motionDuration.slow, delay: 0.12 }}
           />
 
           <motion.path
@@ -199,7 +200,7 @@ export function WeightTrendChart({ points }: WeightTrendChartProps) {
             strokeLinejoin="round"
             initial={{ pathLength: 0, opacity: 0.35 }}
             animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: motionDuration.chart, ease: motionEase.standard }}
           />
 
           {geometry.coords.map((coord, index) => {
@@ -218,7 +219,7 @@ export function WeightTrendChart({ points }: WeightTrendChartProps) {
                 strokeWidth={isLast ? 2 : 1.75}
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.35 + index * 0.04, duration: 0.25 }}
+                transition={{ delay: 0.35 + index * 0.04, duration: motionDuration.normal }}
               />
             );
           })}

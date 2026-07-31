@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 import type { StepsSummary } from "@/features/steps";
 import { formatStepsCount } from "@/features/steps";
+import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 type StepsSummaryCardProps = {
@@ -16,14 +17,14 @@ export function StepsSummaryCard({ summary }: StepsSummaryCardProps) {
   return (
     <motion.section
       key={`${today.entryDate}-${today.totalSteps}`}
-      initial={{ opacity: 0, y: 10 }}
+      initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: motionDuration.page, ease: motionEase.standard }}
       className="relative overflow-hidden rounded-[24px] bg-surface p-5 shadow-m ring-1 ring-black/[0.04]"
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-10 -top-12 size-44 rounded-full bg-primary/28 blur-3xl"
+        className="pointer-events-none absolute -right-10 -top-12 size-40 rounded-full bg-primary/20 blur-3xl"
       />
 
       <div className="relative flex items-center justify-between gap-3">
@@ -38,7 +39,7 @@ export function StepsSummaryCard({ summary }: StepsSummaryCardProps) {
       <div className="relative mt-3 flex items-baseline gap-1.5">
         <motion.span
           key={today.totalSteps}
-          initial={{ opacity: 0.5, y: 6 }}
+          initial={{ opacity: 0.55, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-[42px] font-bold leading-none tracking-[-0.035em] text-text-primary tabular-nums"
         >
@@ -56,25 +57,20 @@ export function StepsSummaryCard({ summary }: StepsSummaryCardProps) {
           )}
           initial={{ width: 0 }}
           animate={{ width: `${Math.max(today.progress * 100, today.totalSteps > 0 ? 2 : 0)}%` }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: motionDuration.slow, ease: motionEase.standard }}
         />
       </div>
 
       {today.goalReached ? (
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: motionDuration.normal, ease: motionEase.standard }}
           className="relative mt-3 inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1.5"
         >
-          <motion.span
-            initial={{ scale: 0.6, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 420, damping: 22, delay: 0.08 }}
-            className="flex size-5 items-center justify-center rounded-full bg-primary text-text-primary"
-          >
+          <span className="flex size-5 items-center justify-center rounded-full bg-primary text-text-primary">
             <Check size={13} strokeWidth={2.6} />
-          </motion.span>
+          </span>
           <span className="text-[13px] font-semibold text-text-primary">
             Objetivo conseguido
           </span>

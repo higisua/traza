@@ -33,11 +33,11 @@ export function RecordWhenField({
         onClick={onToggle}
         className={cn(
           "flex w-full items-center justify-between rounded-[16px] bg-surface-secondary/70 px-4 py-3.5 text-left",
-          "ring-1 ring-black/[0.03] transition-colors hover:bg-surface-secondary",
+          "ring-1 ring-black/[0.04] transition-colors duration-[var(--traza-duration-normal)] hover:bg-surface-secondary",
         )}
       >
         <div>
-          <p className="text-[10px] font-semibold tracking-[0.08em] text-text-muted uppercase">
+          <p className="text-[11px] font-semibold tracking-[0.08em] text-text-muted uppercase">
             Cuándo
           </p>
           <p className="mt-1 text-[15px] font-semibold tabular-nums text-text-primary">
@@ -48,7 +48,7 @@ export function RecordWhenField({
           size={18}
           strokeWidth={1.8}
           className={cn(
-            "text-text-muted transition-transform duration-200",
+            "text-text-muted transition-transform duration-[var(--traza-duration-normal)]",
             open && "rotate-180",
           )}
         />

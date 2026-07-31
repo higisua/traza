@@ -15,6 +15,7 @@ import { WeightHistoryList } from "@/components/weight/WeightHistoryList";
 import { WeightSummaryCard } from "@/components/weight/WeightSummaryCard";
 import { WeightTrendChart } from "@/components/weight/WeightTrendChart";
 import { useWeightEntries, type WeightEntry } from "@/features/weight";
+import { motionDuration, motionEase } from "@/lib/motion";
 
 function EvolutionEmptyIllustration() {
   return (
@@ -101,8 +102,9 @@ export function WeightScreen() {
           ) : (
             <motion.div
               key="filled"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: motionDuration.normal, ease: motionEase.standard }}
               className="flex flex-col gap-4"
             >
               <WeightTrendChart points={chartPoints} />

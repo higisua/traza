@@ -23,7 +23,7 @@ export function ModuleComposeAction({
           onClick={onClick}
           whileTap={pressAnimation.whileTap}
           transition={pressAnimation.transition}
-          className="pointer-events-auto flex h-14 w-full items-center justify-center gap-2 rounded-[18px] bg-primary text-[15px] font-semibold tracking-[-0.01em] text-text-primary shadow-train"
+          className="pointer-events-auto flex h-[length:var(--traza-button-height)] w-full items-center justify-center gap-2 rounded-m bg-primary text-body font-semibold leading-title tracking-title text-text-primary shadow-train"
         >
           <Plus size={20} strokeWidth={2.2} />
           {label}
