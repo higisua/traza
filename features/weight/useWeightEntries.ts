@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useSyncExternalStore } from "react";
+import { useCallback, useMemo } from "react";
+import { useRepositoryEntries } from "@/lib/tracking/useRepositoryEntries";
 import { WeightRepository } from "./WeightRepository";
 import { WeightService } from "./WeightService";
 import type {
@@ -12,40 +13,11 @@ import type {
 
 const EMPTY_ENTRIES: WeightEntry[] = [];
 
-function subscribe(onStoreChange: () => void) {
-  const unsubscribe = WeightRepository.subscribe(onStoreChange);
-
-  const onStorage = (event: StorageEvent) => {
-    if (event.key && event.key.includes("weight_entries")) {
-      WeightRepository.refresh();
-    }
-  };
-
-  if (typeof window !== "undefined") {
-    window.addEventListener("storage", onStorage);
-  }
-
-  return () => {
-    unsubscribe();
-    if (typeof window !== "undefined") {
-      window.removeEventListener("storage", onStorage);
-    }
-  };
-}
-
-function getSnapshot(): WeightEntry[] {
-  return WeightRepository.getAll();
-}
-
-function getServerSnapshot(): WeightEntry[] {
-  return EMPTY_ENTRIES;
-}
-
 export function useWeightEntries() {
-  const entries = useSyncExternalStore(
-    subscribe,
-    getSnapshot,
-    getServerSnapshot,
+  const entries = useRepositoryEntries(
+    WeightRepository,
+    "weight_entries",
+    EMPTY_ENTRIES,
   );
 
   const summary = useMemo<WeightSummary>(

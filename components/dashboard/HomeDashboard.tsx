@@ -22,13 +22,19 @@ import {
   formatWeightKg,
   useWeightEntries,
 } from "@/features/weight";
+import {
+  formatBloodPressureReading,
+  formatPulse,
+  useBloodPressureEntries,
+} from "@/features/blood-pressure";
+import { formatEntryStamp } from "@/lib/tracking/dateTime";
 import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
 
 /**
  * Home — Instrumento Premium (desirability)
  * System: docs/10_HOME_SYSTEM.md v2
- * Frozen layout: only Weight card content/navigation may change for Phase 1.1.
+ * Frozen layout: only Weight + Blood Pressure cards may change for Phase 1.
  */
 
 function openModuleSoon(
@@ -106,7 +112,9 @@ export function HomeDashboard() {
   const { showToast } = useToast();
   const router = useRouter();
   const { summary } = useWeightEntries();
+  const { summary: bpSummary } = useBloodPressureEntries();
   const latestWeight = summary.latest;
+  const latestBp = bpSummary.latest;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -221,16 +229,42 @@ export function HomeDashboard() {
               tone="elevated"
               label="Tensión"
               icon={HeartPulse}
-              onClick={() => openModuleSoon(showToast, "tensión")}
+              onClick={() => router.push("/blood-pressure")}
             >
-              <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-primary tabular-nums">
-                112 / 71
-              </p>
-              <p className="mt-1 text-[13px] font-medium text-text-secondary tabular-nums">
-                63 ppm
-                <span className="mx-1.5 text-border-strong">·</span>
-                <span className="text-text-muted">Hoy · 07:15</span>
-              </p>
+              {latestBp ? (
+                <motion.div
+                  key={latestBp.id}
+                  initial={{ opacity: 0.72, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: motionDuration.normal,
+                    ease: motionEase.standard,
+                  }}
+                >
+                  <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-primary tabular-nums">
+                    {formatBloodPressureReading(
+                      latestBp.systolic,
+                      latestBp.diastolic,
+                    )}
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-secondary tabular-nums">
+                    {formatPulse(latestBp.pulse)}
+                    <span className="mx-1.5 text-border-strong">·</span>
+                    <span className="text-text-muted">
+                      {formatEntryStamp(latestBp)}
+                    </span>
+                  </p>
+                </motion.div>
+              ) : (
+                <>
+                  <p className="text-[24px] font-bold leading-none tracking-[-0.02em] text-text-muted">
+                    — / —
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    Sin registro
+                  </p>
+                </>
+              )}
             </ModuleTile>
 
             <ModuleTile

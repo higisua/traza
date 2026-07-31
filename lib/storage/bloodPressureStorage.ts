@@ -1,37 +1,23 @@
-import { createId, readJson, storageKey, writeJson } from "./localStorage";
+import { BloodPressureRepository } from "@/features/blood-pressure/BloodPressureRepository";
+import { BloodPressureService } from "@/features/blood-pressure/BloodPressureService";
+import type { BloodPressureEntry } from "@/features/blood-pressure/BloodPressureTypes";
 
-export type BloodPressureEntry = {
-  id: string;
-  entryDate: string;
-  entryTime: string | null;
-  systolic: number;
-  diastolic: number;
-  pulse: number | null;
-  createdAt: string;
-  updatedAt: string;
-};
-
-const KEY = storageKey("blood_pressure_entries");
-
-function readAll(): BloodPressureEntry[] {
-  return readJson<BloodPressureEntry[]>(KEY, []);
-}
-
-function writeAll(entries: BloodPressureEntry[]): void {
-  writeJson(KEY, entries);
-}
+/**
+ * Legacy storage façade — prefer BloodPressureService / BloodPressureRepository.
+ */
+export type { BloodPressureEntry };
 
 export const bloodPressureStorage = {
   getAll(): BloodPressureEntry[] {
-    return readAll().sort((a, b) => b.entryDate.localeCompare(a.entryDate));
+    return BloodPressureRepository.getAll();
   },
 
   getByDate(entryDate: string): BloodPressureEntry | null {
-    return readAll().find((entry) => entry.entryDate === entryDate) ?? null;
+    return BloodPressureRepository.getByDate(entryDate).at(-1) ?? null;
   },
 
   getLatest(): BloodPressureEntry | null {
-    return this.getAll()[0] ?? null;
+    return BloodPressureRepository.getLatest();
   },
 
   upsert(input: {
@@ -41,41 +27,20 @@ export const bloodPressureStorage = {
     diastolic: number;
     pulse?: number | null;
   }): BloodPressureEntry {
-    const now = new Date().toISOString();
-    const existing = this.getByDate(input.entryDate);
-
-    if (existing) {
-      const updated: BloodPressureEntry = {
-        ...existing,
-        entryTime: input.entryTime ?? existing.entryTime,
-        systolic: input.systolic,
-        diastolic: input.diastolic,
-        pulse: input.pulse ?? existing.pulse,
-        updatedAt: now,
-      };
-      writeAll(readAll().map((entry) => (entry.id === existing.id ? updated : entry)));
-      return updated;
-    }
-
-    const created: BloodPressureEntry = {
-      id: createId(),
+    return BloodPressureService.create({
       entryDate: input.entryDate,
-      entryTime: input.entryTime ?? null,
+      entryTime: input.entryTime ?? "12:00",
       systolic: input.systolic,
       diastolic: input.diastolic,
-      pulse: input.pulse ?? null,
-      createdAt: now,
-      updatedAt: now,
-    };
-    writeAll([...readAll(), created]);
-    return created;
+      pulse: input.pulse ?? 60,
+    });
   },
 
   remove(id: string): void {
-    writeAll(readAll().filter((entry) => entry.id !== id));
+    BloodPressureRepository.remove(id);
   },
 
   clear(): void {
-    writeAll([]);
+    BloodPressureRepository.clear();
   },
 };

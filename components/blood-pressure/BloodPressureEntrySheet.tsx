@@ -7,63 +7,65 @@ import {
   RecordWhenField,
 } from "@/components/tracking";
 import {
-  WeightService,
-  formatBodyFatPct,
-  formatWeightKg,
+  BloodPressureService,
+  type BloodPressureEntry,
+  type BloodPressureFieldErrors,
+} from "@/features/blood-pressure";
+import {
   nowDateInputValue,
   nowTimeInputValue,
-  type WeightEntry,
-  type WeightFieldErrors,
-} from "@/features/weight";
-import { sanitizeDecimalInput } from "@/lib/tracking/input";
+} from "@/lib/tracking/dateTime";
+import { sanitizeIntegerInput } from "@/lib/tracking/input";
 
-type WeightEntrySheetProps = {
+type BloodPressureEntrySheetProps = {
   open: boolean;
-  entry?: WeightEntry | null;
+  entry?: BloodPressureEntry | null;
   onClose: () => void;
   onSaved: (mode: "create" | "edit") => void;
-  onRequestDelete?: (entry: WeightEntry) => void;
+  onRequestDelete?: (entry: BloodPressureEntry) => void;
 };
 
 type FormState = {
   entryDate: string;
   entryTime: string;
-  weightKg: string;
-  bodyFatPct: string;
+  systolic: string;
+  diastolic: string;
+  pulse: string;
 };
 
-function toFormState(entry?: WeightEntry | null): FormState {
+function toFormState(entry?: BloodPressureEntry | null): FormState {
   if (!entry) {
     return {
       entryDate: nowDateInputValue(),
       entryTime: nowTimeInputValue(),
-      weightKg: "",
-      bodyFatPct: "",
+      systolic: "",
+      diastolic: "",
+      pulse: "",
     };
   }
 
   return {
     entryDate: entry.entryDate,
     entryTime: entry.entryTime,
-    weightKg: formatWeightKg(entry.weightKg),
-    bodyFatPct:
-      entry.bodyFatPct !== null ? formatBodyFatPct(entry.bodyFatPct) : "",
+    systolic: String(entry.systolic),
+    diastolic: String(entry.diastolic),
+    pulse: String(entry.pulse),
   };
 }
 
-export function WeightEntrySheet({
+export function BloodPressureEntrySheet({
   open,
   entry,
   onClose,
   onSaved,
   onRequestDelete,
-}: WeightEntrySheetProps) {
+}: BloodPressureEntrySheetProps) {
   const isEdit = Boolean(entry);
   const [form, setForm] = useState<FormState>(() => toFormState(entry));
-  const [errors, setErrors] = useState<WeightFieldErrors>({});
+  const [errors, setErrors] = useState<BloodPressureFieldErrors>({});
   const [saving, setSaving] = useState(false);
   const [whenOpen, setWhenOpen] = useState(false);
-  const weightRef = useRef<HTMLInputElement>(null);
+  const systolicRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -71,7 +73,7 @@ export function WeightEntrySheet({
     setErrors({});
     setSaving(false);
     setWhenOpen(false);
-    const timer = window.setTimeout(() => weightRef.current?.focus(), 220);
+    const timer = window.setTimeout(() => systolicRef.current?.focus(), 220);
     return () => window.clearTimeout(timer);
   }, [open, entry]);
 
@@ -81,7 +83,7 @@ export function WeightEntrySheet({
   }
 
   function handleSave() {
-    const result = WeightService.validate(form);
+    const result = BloodPressureService.validate(form);
     if (!result.ok) {
       setErrors(result.errors);
       if (result.errors.entryDate || result.errors.entryTime) {
@@ -92,10 +94,10 @@ export function WeightEntrySheet({
 
     setSaving(true);
     if (isEdit && entry) {
-      WeightService.update(entry.id, result.value);
+      BloodPressureService.update(entry.id, result.value);
       onSaved("edit");
     } else {
-      WeightService.create(result.value);
+      BloodPressureService.create(result.value);
       onSaved("create");
     }
     setSaving(false);
@@ -111,7 +113,7 @@ export function WeightEntrySheet({
   return (
     <RecordBottomSheet
       open={open}
-      title={isEdit ? "Editar peso" : "Registrar peso"}
+      title={isEdit ? "Editar tensión" : "Registrar tensión"}
       onClose={onClose}
       onSave={handleSave}
       saving={saving}
@@ -129,32 +131,47 @@ export function WeightEntrySheet({
         />
       }
     >
-      <NumberInput
-        ref={weightRef}
-        label="Peso"
-        unit="kg"
-        inputMode="decimal"
-        enterKeyHint="next"
-        placeholder="0,00"
-        value={form.weightKg}
-        error={errors.weightKg}
-        onClear={() => updateField("weightKg", "")}
-        onChange={(event) =>
-          updateField("weightKg", sanitizeDecimalInput(event.target.value))
-        }
-      />
+      <div className="grid grid-cols-2 gap-3">
+        <NumberInput
+          ref={systolicRef}
+          label="Sistólica"
+          unit="mmHg"
+          inputMode="numeric"
+          enterKeyHint="next"
+          placeholder="120"
+          value={form.systolic}
+          error={errors.systolic}
+          onClear={() => updateField("systolic", "")}
+          onChange={(event) =>
+            updateField("systolic", sanitizeIntegerInput(event.target.value))
+          }
+        />
+        <NumberInput
+          label="Diastólica"
+          unit="mmHg"
+          inputMode="numeric"
+          enterKeyHint="next"
+          placeholder="80"
+          value={form.diastolic}
+          error={errors.diastolic}
+          onClear={() => updateField("diastolic", "")}
+          onChange={(event) =>
+            updateField("diastolic", sanitizeIntegerInput(event.target.value))
+          }
+        />
+      </div>
 
       <NumberInput
-        label="Grasa corporal"
-        unit="%"
-        inputMode="decimal"
+        label="Pulso"
+        unit="ppm"
+        inputMode="numeric"
         enterKeyHint="done"
-        placeholder="Opcional"
-        value={form.bodyFatPct}
-        error={errors.bodyFatPct}
-        onClear={() => updateField("bodyFatPct", "")}
+        placeholder="60"
+        value={form.pulse}
+        error={errors.pulse}
+        onClear={() => updateField("pulse", "")}
         onChange={(event) =>
-          updateField("bodyFatPct", sanitizeDecimalInput(event.target.value))
+          updateField("pulse", sanitizeIntegerInput(event.target.value))
         }
         onKeyDown={(event) => {
           if (event.key === "Enter") {
