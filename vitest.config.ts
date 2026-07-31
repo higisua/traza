@@ -6,6 +6,7 @@ export default defineConfig({
     environment: "node",
     include: [
       "features/analytics/**/*.test.ts",
+      "features/insights/**/*.test.ts",
       "features/workout/__tests__/prCompute.test.ts",
     ],
   },
