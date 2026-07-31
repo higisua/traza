@@ -36,6 +36,10 @@ import {
   formatStepsCount,
   useStepsEntries,
 } from "@/features/steps";
+import {
+  formatCm,
+  useMeasurementEntries,
+} from "@/features/measurements";
 import { formatEntryStamp } from "@/lib/tracking/dateTime";
 import { motionDuration, motionEase } from "@/lib/motion";
 import { cn } from "@/lib/utils/cn";
@@ -45,13 +49,6 @@ import { cn } from "@/lib/utils/cn";
  * System: docs/10_HOME_SYSTEM.md v2
  * Frozen layout: only tracking cards already shipped may update for Phase 1.
  */
-
-function openModuleSoon(
-  showToast: (message: string) => void,
-  moduleName: string,
-) {
-  showToast(`El módulo de ${moduleName} llega en la Fase 1`);
-}
 
 function IconWell({ icon: Icon }: { icon: LucideIcon }) {
   return (
@@ -124,10 +121,12 @@ export function HomeDashboard() {
   const { summary: bpSummary } = useBloodPressureEntries();
   const { summary: sleepSummary } = useSleepEntries();
   const { summary: stepsSummary } = useStepsEntries();
+  const { summary: measurementsSummary } = useMeasurementEntries();
   const latestWeight = summary.latest;
   const latestBp = bpSummary.latest;
   const latestSleep = sleepSummary.latest;
   const todaySteps = stepsSummary.today;
+  const latestMeasurements = measurementsSummary.latest;
 
   return (
     <div className="relative -mx-5 flex min-h-[calc(100dvh-var(--traza-bottom-nav-height)-env(safe-area-inset-bottom))] flex-col">
@@ -366,15 +365,38 @@ export function HomeDashboard() {
               tone="quiet"
               label="Medidas"
               icon={Ruler}
-              onClick={() => openModuleSoon(showToast, "medidas")}
+              onClick={() => router.push("/measurements")}
             >
-              <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-primary tabular-nums">
-                86{" "}
-                <span className="text-[13px] font-semibold text-text-muted">cm</span>
-              </p>
-              <p className="mt-1 text-[13px] font-medium text-text-muted">
-                Hace 6 días
-              </p>
+              {latestMeasurements ? (
+                <motion.div
+                  key={latestMeasurements.id}
+                  initial={{ opacity: 0.72, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: motionDuration.normal,
+                    ease: motionEase.standard,
+                  }}
+                >
+                  <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-primary tabular-nums">
+                    {formatCm(latestMeasurements.waistCm)}{" "}
+                    <span className="text-[13px] font-semibold text-text-muted">
+                      cm
+                    </span>
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    {formatEntryStamp(latestMeasurements)}
+                  </p>
+                </motion.div>
+              ) : (
+                <>
+                  <p className="text-[20px] font-bold leading-none tracking-[-0.015em] text-text-muted">
+                    —
+                  </p>
+                  <p className="mt-1 text-[13px] font-medium text-text-muted">
+                    Sin registro
+                  </p>
+                </>
+              )}
             </ModuleTile>
           </div>
         </div>
