@@ -199,3 +199,24 @@ Rules
 Reason
 
 Own the training program in-product without Cursor, while guaranteeing historical sessions always point at the version that was trained.
+
+---
+
+## Decision 019
+
+Local data center under Más → Datos e informes. Backups and exports are first-class product surfaces; data stays on-device in this phase.
+
+Rules
+
+- Export UX: Period → Format → Export (content checkboxes, all on by default). Periods: 7d / 30d / 90d / current year / all / custom.
+- Formats: CSV (ZIP of domain CSVs), Excel (one workbook + Resumen), PDF (TRAZA-styled report), JSON (full backup).
+- JSON backup is the only restore format. Payload always includes `schemaVersion` and `appVersion`. Future imports migrate via `schemaVersion` (`migrateBackupPayload`).
+- Restore never auto-applies: show summary → Replace / Merge / Cancel. Merge unions by id; on conflict newer `updatedAt` wins; ids are never rewritten.
+- Derived analytics/insights/PRs are optional in the JSON for sharing; restore ignores them and recomputes from raw stores.
+- No Google Drive / Dropbox / iCloud / Supabase / cloud sync / AI in this phase. The JSON document is cloud-prep: the same portable unit can upload later without reshaping domains.
+- Architecture: `features/data/*` (exporters, importers, schema, storage stats) outside React; UI under `/more/data/*`. AnalyticsService / InsightsService are consumed read-only.
+- Meta: `traza:v1:data_meta` for last backup/export stamps.
+
+Reason
+
+Treat user data as an asset users can backup, analyze, share (e.g. with ChatGPT), and restore — with a stable schema that survives TRAZA upgrades.

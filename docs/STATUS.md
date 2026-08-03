@@ -1,6 +1,6 @@
 # PROJECT STATUS
 
-Version: 0.4.0  
+Version: 0.5.0  
 Last Updated: 2026-08-03
 
 ---
@@ -12,20 +12,21 @@ Phase:
 🟢 Phase 1 — Tracking (Done)  
 🟢 Training / sessions / calendar / analytics / insights / progress (shipped on Phase 1 foundation)  
 🟡 Phase 7.1 — Exercise management (awaiting approval)  
-🟡 Phase 7.2 — Routine management (awaiting approval)
+🟡 Phase 7.2 — Routine management (awaiting approval)  
+🟡 Phase 8 — Datos e informes (awaiting approval)
 
 Status:  
-Managed exercise + routine catalogs under Más → Gestión de entrenamiento. No commit/push until product approval.
+Managed catalogs + local data center (export / backup / restore / storage info). No commit/push until product approval.
 
 ---
 
 # Current Sprint
 
-Phase 7.2 – Routine management
+Phase 8 – Datos e informes
 
 Goal:
 
-Stop depending on Cursor to edit training programs. From TRAZA: list / create / edit / duplicate / archive / restore / preview / auto-version. Entrenar consumes only **active** managed routines. Seed Día A/B/C/Casa migrate idempotently. Historical sessions keep pointing at the version used.
+Make local data a first-class asset: export (CSV ZIP / Excel / PDF), full JSON backup with `schemaVersion`, restore (replace / merge / cancel), and storage info — under Más → Datos e informes. Local only; no cloud.
 
 ---
 
@@ -84,18 +85,26 @@ Stop depending on Cursor to edit training programs. From TRAZA: list / create / 
 ✅ Duplicate / archive / restore / auto-version on structural edits with history  
 ✅ Decision 018 + DATABASE / STATUS updates  
 
+## Phase 8 — Datos e informes (implemented, pending approval)
+
+✅ `features/data` (schema / period / collect / CSV·Excel·PDF·JSON exporters / restore / storage stats)  
+✅ Más → Datos e informes hub + export / restore / storage screens  
+✅ CSV ZIP, Excel (+ Resumen), PDF report, JSON full backup (`schemaVersion: 1`)  
+✅ Restore preview → Replace / Merge / Cancel  
+✅ Decision 019 + DATABASE / STATUS updates  
+✅ Libraries: jszip, exceljs, jspdf (client dynamic import)
+
 ---
 
 # In Progress
 
-🟡 Phase 7.1 + 7.2 awaiting product approval (no commit/push)
+🟡 Phase 7.1 + 7.2 + 8 awaiting product approval (no commit/push)
 
 ---
 
 # Pending
 
-⬜ Exports / backup / cloud sync  
-⬜ Supabase  
+⬜ Cloud sync / Supabase  
 ⬜ Polish / V1 release  
 ⬜ Future: superseries / dropsets / DnD / AI / sharing (hooks only today)
 
@@ -103,13 +112,13 @@ Stop depending on Cursor to edit training programs. From TRAZA: list / create / 
 
 # Current Priority
 
-Approve Phase 7.1 + 7.2 management surfaces, then continue product iteration without Cursor catalog edits.
+Approve Phase 7–8 surfaces, then continue product iteration.
 
 ---
 
 # Current Branch
 
-main (uncommitted Phase 7.1 + 7.2 work)
+main (uncommitted Phase 7.1 + 7.2 + 8 work)
 
 ---
 
@@ -121,4 +130,4 @@ Image binaries are not stored in localStorage — only catalog paths + placehold
 
 # Decisions
 
-See `docs/DECISIONS.md` (through 018).
+See `docs/DECISIONS.md` (through 019).

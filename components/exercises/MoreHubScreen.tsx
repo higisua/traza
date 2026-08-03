@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronRight, Dumbbell, Settings2 } from "lucide-react";
+import { ChevronRight, Database, Dumbbell, Settings2 } from "lucide-react";
 
 export function MoreHubScreen() {
   return (
@@ -10,7 +10,7 @@ export function MoreHubScreen() {
         Más
       </h1>
       <p className="mt-2 text-caption text-text-secondary">
-        Gestión de entrenamiento y ajustes.
+        Gestión de entrenamiento, datos y ajustes.
       </p>
 
       <ul className="mt-6 flex flex-col gap-3">
@@ -28,6 +28,25 @@ export function MoreHubScreen() {
               </span>
               <span className="mt-0.5 block text-[13px] text-text-secondary">
                 Biblioteca de ejercicios y rutinas
+              </span>
+            </span>
+            <ChevronRight size={18} className="shrink-0 text-text-muted" />
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/more/data"
+            className="flex items-center gap-3 rounded-[20px] bg-surface p-4 shadow-xs ring-1 ring-black/[0.03] transition-transform duration-[var(--traza-duration-fast)] active:scale-[0.99]"
+          >
+            <span className="flex size-[48px] items-center justify-center rounded-[14px] bg-primary/25 text-text-primary">
+              <Database size={22} strokeWidth={2} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-[16px] font-semibold text-text-primary">
+                Datos e informes
+              </span>
+              <span className="mt-0.5 block text-[13px] text-text-secondary">
+                Revisar · analizar · conservar · restaurar
               </span>
             </span>
             <ChevronRight size={18} className="shrink-0 text-text-muted" />

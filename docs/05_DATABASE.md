@@ -761,9 +761,17 @@ created_at
 
 # EXPORT
 
-No export tables.
+Exports are generated dynamically on the client (no export tables).
 
-Exports are generated dynamically.
+## Local backup JSON (`schemaVersion`)
+
+Portable unit of user data for restore and future cloud sync.
+
+- Current contract: `schemaVersion: 1` (`features/data/schema.ts`).
+- Full backup `kind: "full_backup"` includes: settings, progress period, all metric entries, workout sessions/templates, exercises, routines + routine versions. Optional derived `analyticsSnapshot` / `insightsSnapshot` are ignored on import.
+- Future imports **must** branch on `schemaVersion` and migrate (see `migrateBackupPayload`). Never assume today’s field names forever.
+- CSV / Excel / PDF are analysis exports (period-filtered). Only JSON is the restore format.
+- Meta timestamps: `traza:v1:data_meta` (`lastBackupAt`, `lastExportAt`, `lastExportFormat`).
 
 ---
 
