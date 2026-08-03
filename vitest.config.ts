@@ -9,6 +9,7 @@ export default defineConfig({
       "features/insights/**/*.test.ts",
       "features/workout/__tests__/prCompute.test.ts",
       "features/exercises/**/*.test.ts",
+      "features/routines/**/*.test.ts",
     ],
   },
   resolve: {

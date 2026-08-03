@@ -3,8 +3,10 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { PrimaryButton } from "@/components/forms/Button";
+import { useRoutines } from "@/features/routines";
 import {
   WorkoutCatalog,
   WorkoutService,
@@ -22,6 +24,11 @@ type RoutinePreSummaryScreenProps = {
 
 export function RoutinePreSummaryScreen({ slug }: RoutinePreSummaryScreenProps) {
   const router = useRouter();
+  const { all } = useRoutines();
+  const managed = useMemo(
+    () => all.find((item) => item.slug === slug) ?? null,
+    [all, slug],
+  );
   const routine = WorkoutCatalog.getRoutine(slug);
   const { session: active, hydrated } = useActiveWorkoutSession();
   const lastSummary =
@@ -29,12 +36,14 @@ export function RoutinePreSummaryScreen({ slug }: RoutinePreSummaryScreenProps) 
       ? WorkoutService.getLastRoutineSessionSummary(routine.slug)
       : null;
 
-  if (!routine) {
+  if (!routine || (managed && managed.status !== "active")) {
     return (
       <div className="pt-2">
         <PageHeader title="Rutina" onBack={() => router.push("/train")} />
         <p className="mt-6 text-body text-text-secondary">
-          No encontramos esa rutina.
+          {managed?.status === "archived"
+            ? "Esta rutina está archivada. Restaúrala desde Gestión de entrenamiento para entrenar con ella."
+            : "No encontramos esa rutina."}
         </p>
       </div>
     );
@@ -100,7 +109,7 @@ export function RoutinePreSummaryScreen({ slug }: RoutinePreSummaryScreenProps) 
               if (!exercise) return null;
               return (
                 <motion.li
-                  key={plan.exerciseSlug}
+                  key={`${plan.exerciseSlug}-${plan.order}`}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{

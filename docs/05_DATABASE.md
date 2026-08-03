@@ -485,7 +485,7 @@ Images
 
 Prep for routines
 
-Exercise membership in future `workout_template_exercises` / template versions must keep referencing `slug` (or stable exercise id mapped to slug) so history stays consistent (Decision 001 / 005).
+Exercise membership in `routine_versions.blocks` references `exercise_slug` so history stays consistent (Decision 001 / 005 / 018).
 
 ---
 
@@ -505,11 +505,20 @@ alternative_exercise_id
 
 #######################################################
 
-workout_templates
+Local MVP keys (Decision 018)
+
+- `traza:v1:routines` — routine identity
+- `traza:v1:routine_versions` — immutable structure snapshots
+
+Gold rule: routines change over time; history never does. Sessions store `template_id` = routine slug and `template_version_id` = version id.
 
 #######################################################
 
-Logical routine.
+workout_templates / routines
+
+#######################################################
+
+Logical routine identity.
 
 Example
 
@@ -521,37 +530,88 @@ DAY C
 
 HOME
 
-Columns
+Columns (local model)
 
-id
+id (seed rows use slug as id)
+
+slug (stable; session template_id)
 
 name
 
+name_es
+
 description
 
-is_archived
+goal / objective
+
+status (`active` | `archived`)
+
+current_version_id
+
+current_version_number
+
+is_seed
 
 created_at
 
 updated_at
 
+Archive vs history
+
+- Archived: hidden from Entrenar; restorable; historical sessions still resolve by slug + version id.
+- Hard delete: only when no sessions reference the routine (any version). Otherwise archive.
+
+Seed
+
+Idempotent merge from `seed/workout_seed.json` on first repository read. Missing seed slugs / `${slug}:v1` versions inserted; existing rows never overwritten.
+
 ---
 
-workout_template_versions
+workout_template_versions / routine_versions
 
 #######################################################
 
-Every modification creates a version.
+Every structural change with completed history creates a new version. Descriptive-only changes do not.
 
 Columns
 
-id
+id (stable; session template_version_id — seed: `${slug}:v1`)
 
-template_id
+routine_id / template_id
 
 version_number
 
+blocks / exercises (ordered)
+
+estimated_duration_minutes
+
+exercise_count
+
 created_at
+
+Block fields (routine-local overrides)
+
+exercise_slug
+
+order
+
+sets
+
+rep_min / rep_max
+
+rir_min / rir_max
+
+rest_seconds
+
+duration_minutes / duration_seconds
+
+comment (optional, routine-local)
+
+pair_group (prep for supersets — seed pairs preserved)
+
+block_kind (prep: single | superset | dropset | giant — MVP always single)
+
+tempo (prep — unused in MVP)
 
 ---
 
@@ -559,7 +619,9 @@ workout_template_exercises
 
 #######################################################
 
-Columns
+Logical membership lives inside version `blocks` for the local MVP (not a separate localStorage collection).
+
+Future cloud columns remain:
 
 id
 

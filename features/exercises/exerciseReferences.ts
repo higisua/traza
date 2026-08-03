@@ -1,26 +1,26 @@
 import { trainingStorage } from "@/lib/storage/trainingStorage";
-import { WorkoutCatalog } from "@/features/workout/WorkoutCatalog";
+import { RoutineRepository } from "@/features/routines/routineRepository";
 import { PRService } from "@/features/workout/PRService";
 import type { ExerciseReferenceSummary } from "./exerciseTypes";
 
 /**
  * Summarize where an exercise slug is referenced.
  * Safe-delete is only allowed when nothing references it.
- *
- * Prepared for future: routine version history storage will also count here.
  */
 export function getExerciseReferences(
   slug: string,
 ): ExerciseReferenceSummary {
-  const routines = WorkoutCatalog.listRoutines().filter((routine) =>
-    routine.exercises.some((plan) => plan.exerciseSlug === slug),
-  );
+  const versions = RoutineRepository.getAllVersions();
+  const routineHits = new Set<string>();
+  for (const version of versions) {
+    if (version.blocks.some((block) => block.exerciseSlug === slug)) {
+      routineHits.add(version.routineId);
+    }
+  }
 
-  // Future: persisted templates / template versions
+  // Legacy stub templates (unused by Phase 7.2 managed catalog)
   const templates = trainingStorage.getTemplates();
   const templateHits = templates.filter((template) => {
-    // Templates today only store metadata; exercise membership lives in catalog.
-    // Keep hook so routine persistence can extend without API change.
     void template;
     return false;
   }).length;
@@ -37,7 +37,7 @@ export function getExerciseReferences(
   }
 
   const personalRecords = PRService.getRecords(slug).length;
-  const usedInRoutines = routines.length + templateHits;
+  const usedInRoutines = routineHits.size + templateHits;
 
   const canDelete =
     usedInRoutines === 0 &&

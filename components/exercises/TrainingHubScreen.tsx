@@ -20,7 +20,7 @@ export function TrainingHubScreen() {
         <PageHeader title="Gestión de entrenamiento" onBack={() => router.push("/more")} />
 
         <p className="mt-2 text-caption text-text-secondary">
-          Tu biblioteca de ejercicios y, más adelante, rutinas.
+          Biblioteca de ejercicios y programas de entrenamiento.
         </p>
 
         <ul className="mt-6 flex flex-col gap-3">
@@ -34,8 +34,7 @@ export function TrainingHubScreen() {
             href="/more/training/routines"
             icon={LayoutList}
             title="Rutinas"
-            description="Próximamente"
-            soon
+            description="Programas · crear, versionar y archivar"
           />
         </ul>
       </div>
@@ -48,13 +47,11 @@ function HubLink({
   icon: Icon,
   title,
   description,
-  soon = false,
 }: {
   href: string;
   icon: typeof Dumbbell;
   title: string;
   description: string;
-  soon?: boolean;
 }) {
   return (
     <li>
@@ -69,15 +66,8 @@ function HubLink({
           <Icon size={22} strokeWidth={2} />
         </span>
         <span className="min-w-0 flex-1">
-          <span className="flex items-center gap-2">
-            <span className="text-[16px] font-semibold text-text-primary">
-              {title}
-            </span>
-            {soon ? (
-              <span className="rounded-full bg-surface-secondary px-2 py-0.5 text-[12px] font-semibold text-text-muted">
-                Pronto
-              </span>
-            ) : null}
+          <span className="text-[16px] font-semibold text-text-primary">
+            {title}
           </span>
           <span className="mt-0.5 block text-[13px] text-text-secondary">
             {description}

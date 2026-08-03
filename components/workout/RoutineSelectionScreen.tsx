@@ -4,8 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import { useMemo } from "react";
 import { PageHeader } from "@/components/common/PageHeader";
 import { PrimaryButton } from "@/components/forms/Button";
+import { useRoutines } from "@/features/routines";
 import {
   WorkoutCatalog,
   WorkoutService,
@@ -18,8 +20,15 @@ import { listItemVariants, motionDuration, motionEase } from "@/lib/motion";
 
 export function RoutineSelectionScreen() {
   const router = useRouter();
-  const routines = WorkoutCatalog.listRoutines();
-  const { session: active, hydrated } = useActiveWorkoutSession();
+  const { active } = useRoutines({ status: "active" });
+  const routines = useMemo(
+    () =>
+      active
+        .map((routine) => WorkoutCatalog.getRoutine(routine.slug))
+        .filter((item): item is NonNullable<typeof item> => item !== null),
+    [active],
+  );
+  const { session: activeSession, hydrated } = useActiveWorkoutSession();
 
   return (
     <div className="relative flex flex-col pb-8 pt-2">
@@ -32,7 +41,7 @@ export function RoutineSelectionScreen() {
         <PageHeader title="Entrenar" onBack={() => router.push("/home")} />
       </div>
 
-      {hydrated && active ? (
+      {hydrated && activeSession ? (
         <motion.div
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
@@ -50,7 +59,7 @@ export function RoutineSelectionScreen() {
           </p>
           <PrimaryButton
             className="mt-3"
-            onClick={() => router.push(`/workout/${active.id}`)}
+            onClick={() => router.push(`/workout/${activeSession.id}`)}
           >
             Continuar entrenamiento
           </PrimaryButton>

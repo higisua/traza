@@ -169,9 +169,33 @@ Rules
 - Hard delete only when never referenced (routines, sessions/sets, PRs). Otherwise archive.
 - Recording types: `strength | bodyweight | timed | cardio` (mapped to workout `Weight | Repetitions | Time | Cardio`).
 - Images: path association only (`/public/exercises` or none → placeholder). No binary blobs in localStorage.
-- Structural recording-type changes with history warn the user; full exercise versioning deferred until routines phase.
-- Architecture prepares for routine editor / template versioning without implementing them yet.
+- Structural recording-type changes with history warn the user; full exercise versioning deferred.
+- Routine editor / template versioning: see Decision 018.
 
 Reason
 
 Product must own the catalog without Cursor edits, while protecting historical workouts (Decision 005).
+
+---
+
+## Decision 018
+
+Routines are managed local entities with immutable versions (`traza:v1:routines` + `traza:v1:routine_versions`).
+
+Rules
+
+- A routine is a living training program (identity), not a disposable exercise list.
+- Status is only `active` | `archived`. Active appear in Entrenar; archived do not. Restore = activate.
+- Seed routines (Día A / B / C / Casa) merge idempotently like exercises: missing slugs inserted; user edits never overwritten. Seed version ids stay `${slug}:v1` so existing sessions keep resolving.
+- Session `templateId` = routine `slug`. Session `templateVersionId` = stable version `id`. History never rewrites.
+- Plan resolution for a session prefers `templateVersionId` (Decision 001 / 005).
+- Minor edits (name, description, goal, estimated duration, notes) update in place — no new version, no save dialog.
+- Structural edits (add/remove/reorder exercises, sets, rep ranges, rest, RIR, load increment override): in-place if no completed sessions; if history exists, UI asks Update this routine vs Create new version (versioning stays; visible vN is hidden in daily UX).
+- Duplicate copies selectable parts (exercises / configuration / rests / notes) into a new routine with a fresh version lineage (starts at v1).
+- Constructor overrides are routine-local only; library exercises are never edited from here. Add exercises from active library only.
+- Architecture hooks only (not shipped): block kind / pair group / tempo, future DnD reorder API, AI / sharing flags.
+- Superseries, dropsets, giant sets, tempo UI, per-set notes, AI, and sharing are out of scope for Phase 7.2.
+
+Reason
+
+Own the training program in-product without Cursor, while guaranteeing historical sessions always point at the version that was trained.

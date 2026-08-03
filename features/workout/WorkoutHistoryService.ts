@@ -57,7 +57,7 @@ export const WorkoutHistoryService = {
       if (!match || match.sets.length === 0) continue;
 
       const routineNameEs = session.templateId
-        ? (WorkoutCatalog.getRoutine(session.templateId)?.nameEs ?? null)
+        ? (WorkoutCatalog.getRoutineForSession(session)?.nameEs ?? null)
         : null;
 
       const sets = match.sets.map((set) => {
@@ -88,6 +88,40 @@ export const WorkoutHistoryService = {
     limit = 5,
   ): ExerciseHistorySession[] {
     return this.getExerciseHistory(exerciseId).slice(0, limit);
+  },
+
+  /**
+   * Exercise slugs used recently across finished sessions (newest first).
+   * Used by the routine editor “Recientes” picker section.
+   */
+  getRecentExerciseSlugs(limit = 8): string[] {
+    const sessions = WorkoutRepository.getSessions()
+      .filter(
+        (session) =>
+          session.status !== "cancelled" &&
+          session.status !== "in_progress",
+      )
+      .sort((a, b) => {
+        const byDate = b.sessionDate.localeCompare(a.sessionDate);
+        if (byDate !== 0) return byDate;
+        return b.updatedAt.localeCompare(a.updatedAt);
+      });
+
+    const seen = new Set<string>();
+    const ordered: string[] = [];
+    for (const session of sessions) {
+      const exercises = [...session.exercises].sort(
+        (a, b) => a.performedOrder - b.performedOrder,
+      );
+      for (const exercise of exercises) {
+        if (!exercise.exerciseId || seen.has(exercise.exerciseId)) continue;
+        if (exercise.sets.length === 0) continue;
+        seen.add(exercise.exerciseId);
+        ordered.push(exercise.exerciseId);
+        if (ordered.length >= limit) return ordered;
+      }
+    }
+    return ordered;
   },
 
   /** Simple top-line stats — no charts. */

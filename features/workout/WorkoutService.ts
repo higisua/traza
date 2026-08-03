@@ -4,6 +4,7 @@ import type {
   WorkoutSessionExercise,
   WorkoutSet,
 } from "@/lib/storage/trainingStorage";
+import { RoutineRepository } from "@/features/routines/routineRepository";
 import { PRService } from "./PRService";
 import { WorkoutCatalog } from "./WorkoutCatalog";
 import {
@@ -35,11 +36,16 @@ function cloneSession(session: WorkoutSession): WorkoutSession {
   };
 }
 
+type SessionRoutineRef = {
+  templateId: string | null;
+  templateVersionId: string | null;
+};
+
 function plannedSetsFor(
-  routineSlug: string,
+  session: SessionRoutineRef,
   exerciseSlug: string,
 ): number {
-  const routine = WorkoutCatalog.getRoutine(routineSlug);
+  const routine = WorkoutCatalog.getRoutineForSession(session);
   const plan = routine?.exercises.find(
     (item) => item.exerciseSlug === exerciseSlug,
   );
@@ -47,10 +53,10 @@ function plannedSetsFor(
 }
 
 function restSecondsFor(
-  routineSlug: string,
+  session: SessionRoutineRef,
   exerciseSlug: string,
 ): number {
-  const routine = WorkoutCatalog.getRoutine(routineSlug);
+  const routine = WorkoutCatalog.getRoutineForSession(session);
   const plan = routine?.exercises.find(
     (item) => item.exerciseSlug === exerciseSlug,
   );
@@ -116,7 +122,12 @@ function updateExerciseStatus(
 
 export const WorkoutService = {
   startSession(routineSlug: string): WorkoutSession | null {
-    const routine = WorkoutCatalog.getRoutine(routineSlug);
+    // Only active managed routines appear in Entrenar; archived are blocked.
+    const managed = RoutineRepository.getBySlug(routineSlug);
+    if (managed && managed.status !== "active") return null;
+
+    const versionId = managed?.currentVersionId ?? null;
+    const routine = WorkoutCatalog.getRoutine(routineSlug, versionId);
     if (!routine) return null;
 
     const existing = WorkoutRepository.getActiveSession();
@@ -140,7 +151,8 @@ export const WorkoutService = {
 
     return WorkoutRepository.createSession({
       templateId: routine.slug,
-      templateVersionId: `${routine.slug}:v1`,
+      templateVersionId:
+        versionId ?? `${routine.slug}:v1`,
       sessionDate: todaySessionDate(),
       startTime: now,
       endTime: null,
@@ -166,9 +178,7 @@ export const WorkoutService = {
     const catalog = exercise
       ? WorkoutCatalog.getExercise(exercise.exerciseId)
       : null;
-    const routine = session.templateId
-      ? WorkoutCatalog.getRoutine(session.templateId)
-      : null;
+    const routine = WorkoutCatalog.getRoutineForSession(session);
     const plan = routine?.exercises.find(
       (item) => item.exerciseSlug === exercise?.exerciseId,
     );
@@ -285,8 +295,7 @@ export const WorkoutService = {
     const catalog = WorkoutCatalog.getExercise(exercise.exerciseId);
     if (!catalog) return null;
 
-    const routineSlug = session.templateId ?? "";
-    const plannedSets = plannedSetsFor(routineSlug, exercise.exerciseId);
+    const plannedSets = plannedSetsFor(session, exercise.exerciseId);
     const setNumber = exercise.sets.length + 1;
 
     const nextSet: WorkoutSet = {
@@ -324,7 +333,7 @@ export const WorkoutService = {
     );
 
     const saved = WorkoutRepository.saveSession(session);
-    const restSeconds = restSecondsFor(routineSlug, exercise.exerciseId);
+    const restSeconds = restSecondsFor(session, exercise.exerciseId);
 
     return { session: saved, restSeconds, prKinds };
   },
@@ -369,10 +378,7 @@ export const WorkoutService = {
       exercise.lastSetRir = draft.rir;
     }
 
-    const plannedSets = plannedSetsFor(
-      session.templateId ?? "",
-      exercise.exerciseId,
-    );
+    const plannedSets = plannedSetsFor(session, exercise.exerciseId);
     session.exercises[exerciseIndex] = updateExerciseStatus(
       exercise,
       plannedSets,
@@ -417,10 +423,7 @@ export const WorkoutService = {
       if (exercise.sets.length === 0) {
         return { ...exercise, status: "skipped" };
       }
-      const planned = plannedSetsFor(
-        session.templateId ?? "",
-        exercise.exerciseId,
-      );
+      const planned = plannedSetsFor(session, exercise.exerciseId);
       return updateExerciseStatus(exercise, planned);
     });
 
@@ -433,13 +436,13 @@ export const WorkoutService = {
   plannedSets(session: WorkoutSession, exerciseIndex: number): number {
     const exercise = session.exercises[exerciseIndex];
     if (!exercise) return 1;
-    return plannedSetsFor(session.templateId ?? "", exercise.exerciseId);
+    return plannedSetsFor(session, exercise.exerciseId);
   },
 
   restSeconds(session: WorkoutSession, exerciseIndex: number): number {
     const exercise = session.exercises[exerciseIndex];
     if (!exercise) return 90;
-    return restSecondsFor(session.templateId ?? "", exercise.exerciseId);
+    return restSecondsFor(session, exercise.exerciseId);
   },
 
   isExerciseComplete(session: WorkoutSession, exerciseIndex: number): boolean {
@@ -448,10 +451,7 @@ export const WorkoutService = {
     if (exercise.status === "completed" || exercise.status === "skipped") {
       return true;
     }
-    const planned = plannedSetsFor(
-      session.templateId ?? "",
-      exercise.exerciseId,
-    );
+    const planned = plannedSetsFor(session, exercise.exerciseId);
     return exercise.sets.length >= planned;
   },
 
@@ -512,10 +512,7 @@ export const WorkoutService = {
     const active =
       activeExerciseIndex ?? this.firstOpenExerciseIndex(session);
     const exercises = session.exercises.map((exercise, index) => {
-      const total = plannedSetsFor(
-        session.templateId ?? "",
-        exercise.exerciseId,
-      );
+      const total = plannedSetsFor(session, exercise.exerciseId);
       const done = Math.min(exercise.sets.length, total);
       setsDone += done;
       setsTotal += total;
@@ -593,10 +590,7 @@ export const WorkoutService = {
     const current = session.exercises[rest.exerciseIndex];
     if (!current) return null;
 
-    const planned = plannedSetsFor(
-      session.templateId ?? "",
-      current.exerciseId,
-    );
+    const planned = plannedSetsFor(session, current.exerciseId);
     const completed = current.sets.length;
     const sameExerciseNext = completed < planned;
 
@@ -618,10 +612,7 @@ export const WorkoutService = {
     const next = session.exercises[nextIndex];
     if (!next) return null;
     const nextCatalog = WorkoutCatalog.getExercise(next.exerciseId);
-    const nextPlanned = plannedSetsFor(
-      session.templateId ?? "",
-      next.exerciseId,
-    );
+    const nextPlanned = plannedSetsFor(session, next.exerciseId);
     return {
       kind: "next_exercise",
       exerciseName: nextCatalog?.nameEs ?? "Ejercicio",

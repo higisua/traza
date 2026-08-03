@@ -1,5 +1,5 @@
-import { RoutinesComingSoonScreen } from "@/components/exercises/RoutinesComingSoonScreen";
+import { RoutineListScreen } from "@/components/routines/RoutineListScreen";
 
 export default function RoutinesPage() {
-  return <RoutinesComingSoonScreen />;
+  return <RoutineListScreen />;
 }

@@ -187,7 +187,7 @@ export function WorkoutSessionScreen({ sessionId }: WorkoutSessionScreenProps) {
         <PageHeader
           title={
             session.templateId
-              ? (WorkoutCatalog.getRoutine(session.templateId)?.nameEs ??
+              ? (WorkoutCatalog.getRoutineForSession(session)?.nameEs ??
                 "Sesión")
               : "Sesión"
           }

@@ -53,7 +53,7 @@ export function WorkoutSummaryScreen({ sessionId }: WorkoutSummaryScreenProps) {
 
   const stats = computeSessionStats(session);
   const routineName = session.templateId
-    ? (WorkoutCatalog.getRoutine(session.templateId)?.nameEs ?? "Entrenamiento")
+    ? (WorkoutCatalog.getRoutineForSession(session)?.nameEs ?? "Entrenamiento")
     : "Entrenamiento";
 
   return (
