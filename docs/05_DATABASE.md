@@ -384,11 +384,11 @@ Reference table.
 
 Values
 
-Weight
+Weight (UI/product: strength)
 
-Bodyweight
+Bodyweight (UI/product: bodyweight; seed historically used Repetitions)
 
-Time
+Time (UI/product: timed)
 
 Cardio
 
@@ -420,29 +420,72 @@ Purpose
 
 Master exercise library.
 
-Columns
+Local MVP key: `traza:v1:exercises` (Decision 017).
+
+Identity
+
+- `id` — entity id (seed rows use slug as id)
+- `slug` — stable historical key; session `exerciseId` stores slug; never rename after use
+
+Columns (local model)
 
 id
 
-group_id
-
-type_id
-
-load_type_id
+slug
 
 name
 
-image_path
+name_es
+
+status (`active` | `archived`)
+
+recording_type (`strength` | `bodyweight` | `timed` | `cardio`)
+
+primary_muscle
+
+secondary_muscles
+
+movement_pattern
+
+equipment
+
+load_type
+
+body_zone
+
+defaults (sets, rep min/max, target RIR, rest, load increment, initial load, unit)
+
+image_path (relative path only — never binary)
 
 technique_tip
 
-configuration_note
+configuration_note / setup_note
 
-is_archived
+is_seed
+
+is_bilateral
 
 created_at
 
 updated_at
+
+Archive vs delete
+
+- Archived: hidden from default selectors; still resolvable in history / old sessions; restorable.
+- Hard delete: only when `canDelete` — not used in routines, workout sessions/sets, or personal records.
+- If referenced → Archive only.
+
+Seed
+
+Idempotent merge from `seed/exercise_seed.json` on first repository read. Missing seed slugs are inserted; existing rows (including user edits) are never overwritten.
+
+Images
+
+`/public/exercises` for the shipped catalog. New exercises pick an existing catalog path or none (placeholder). Binary upload persistence is out of scope for localStorage.
+
+Prep for routines
+
+Exercise membership in future `workout_template_exercises` / template versions must keep referencing `slug` (or stable exercise id mapped to slug) so history stays consistent (Decision 001 / 005).
 
 ---
 

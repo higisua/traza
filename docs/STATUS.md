@@ -1,7 +1,7 @@
 # PROJECT STATUS
 
-Version: 0.2.0  
-Last Updated: 2026-07-31
+Version: 0.3.0  
+Last Updated: 2026-08-03
 
 ---
 
@@ -9,20 +9,22 @@ Last Updated: 2026-07-31
 
 Phase:  
 🟢 Phase 0 — Foundation (Done)  
-🟢 Phase 1 — Tracking (Done)
+🟢 Phase 1 — Tracking (Done)  
+🟢 Training / sessions / calendar / analytics / insights / progress (shipped on Phase 1 foundation)  
+🟡 Phase 7.1 — Exercise management (awaiting approval)
 
 Status:  
-🟢 Phase 1 officially closed — building differential capabilities next (not redesigning the TRAZA foundation)
+Managed exercise catalog under Más → Gestión de entrenamiento. No commit/push until product approval.
 
 ---
 
 # Current Sprint
 
-Sprint 2 – Training engine
+Phase 7.1 – Exercise management
 
 Goal:
 
-Build differential capabilities on the frozen Phase 1 foundation. Visual language and UX patterns stay put unless a change solves a functional problem or improves consistency across the product.
+Stop depending on Cursor to edit the exercise catalog. From TRAZA: list / create / edit / archive / restore / safe-delete, configure recording type & defaults, assign images, ready for future routines. All **29 seed exercises** keep working identically for routines and sessions.
 
 ---
 
@@ -56,54 +58,57 @@ Build differential capabilities on the frozen Phase 1 foundation. Visual languag
 ✅ Body Measurements  
 ✅ Tracking Module Kit completed  
 
-**Product decision:** Phase 1 is officially closed. From now on, work focuses on differential capabilities — not redesigning the TRAZA foundation.
+## Training & beyond (differential)
 
-**Visual freeze:** The visual language and UX patterns are considered frozen. Further visual changes should only be made if they solve a functional problem or improve consistency across the product.
+✅ Workout routines / session logging  
+✅ Calendar  
+✅ Analytics / Insights  
+✅ Progress  
+
+## Phase 7.1 — Exercise management (implemented, pending approval)
+
+✅ `features/exercises` domain (repository / service / hooks / references / images)  
+✅ Idempotent seed of 29 exercises into `traza:v1:exercises`  
+✅ WorkoutCatalog delegates live exercise lookups to repository  
+✅ Más → Gestión de entrenamiento → Ejercicios (+ Rutinas stub)  
+✅ List / detail / create / edit / archive / restore / safe-delete  
+✅ Decision 017 + DATABASE / STATUS updates  
 
 ---
 
 # In Progress
 
-⬜ Phase 2 – Training engine
+🟡 Phase 7.1 awaiting product approval (no commit/push)
 
 ---
 
 # Pending
 
-⬜ Phase 2 – Training engine  
-⬜ Phase 3 – Progress  
-⬜ Phase 4 – Exports  
-⬜ Phase 5 – Supabase  
-⬜ Phase 6 – Polish  
-⬜ Phase 7 – V1 release  
+⬜ Routine editor / versioning  
+⬜ Exports / backup / cloud sync  
+⬜ Supabase  
+⬜ Polish / V1 release  
 
 ---
 
 # Current Priority
 
-Start Phase 2 (Training engine) on the closed Phase 1 foundation. Do not reopen foundation/tracking UX unless functionally required.
+Approve Phase 7.1 exercise management, then routine management on the same catalog.
 
 ---
 
 # Current Branch
 
-main
+main (uncommitted Phase 7.1 work)
 
 ---
 
 # Known Issues
 
-None blocking Phase 2. Tracking modules are live (no longer entry-point stubs).
+Image binaries are not stored in localStorage — only catalog paths + placeholder (see Decision 017).
 
 ---
 
 # Decisions
 
-See DECISIONS.md (012: Home as tracking hub; 013–016: Home visual passes).  
-Phase 1 closure + visual freeze recorded above (2026-07-31).
-
----
-
-# Next Task
-
-Begin Phase 2 – Training engine.
+See `docs/DECISIONS.md` (through 017).

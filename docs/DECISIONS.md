@@ -153,3 +153,25 @@ Home system v2 prioritizes desirability over minimalism.
 Reason
 
 Stripping chrome produced a wireframe feel. Premium means craft, depth, color, and hierarchy — not blank space.
+
+---
+
+## Decision 017
+
+Exercise catalog is a managed local entity (`traza:v1:exercises`), not a static JSON import at runtime.
+
+Rules
+
+- Seed exercises share the same model as user-created ones.
+- Idempotent seed on first read: insert missing seed slugs only; never overwrite user edits; no duplicates.
+- Historical identity is the stable `slug` (session `exerciseId` === slug). Never use display name as a key.
+- Soft archive hides exercises from default selectors; history and old sessions keep resolving by slug.
+- Hard delete only when never referenced (routines, sessions/sets, PRs). Otherwise archive.
+- Recording types: `strength | bodyweight | timed | cardio` (mapped to workout `Weight | Repetitions | Time | Cardio`).
+- Images: path association only (`/public/exercises` or none → placeholder). No binary blobs in localStorage.
+- Structural recording-type changes with history warn the user; full exercise versioning deferred until routines phase.
+- Architecture prepares for routine editor / template versioning without implementing them yet.
+
+Reason
+
+Product must own the catalog without Cursor edits, while protecting historical workouts (Decision 005).
